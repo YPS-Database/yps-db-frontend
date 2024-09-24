@@ -44,3 +44,13 @@ a {
 header > nav > a, footer a {
   @apply text-whiteIce-50 no-underline;
 }
+
+.hover-red {
+  @apply border border-[#E72C2C] shadow-sm shadow-[#F2B2C699];
+}
+.hover-yellow {
+  @apply border border-[#D2920A] shadow-sm shadow-[#FFEEA5BB];
+}
+.hover-green {
+  @apply border border-[#4ABD64] shadow-sm shadow-[#A5FFB1BB];
+}

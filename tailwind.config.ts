@@ -8,6 +8,7 @@ module.exports = {
         card: "0 3px 7px 2px rgba(7, 30, 54, 0.22)",
       },
       colors: {
+        boxBg: '#fffdfd',
         orchidWhite: {
           "50": "#fffcf2", // bg
           "100": "#fef1c7",
