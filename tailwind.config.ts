@@ -9,6 +9,11 @@ module.exports = {
       },
       colors: {
         boxBg: '#fffdfd',
+        happyRed: 'rgb(247, 85, 85)',
+        happyYellow: 'rgb(244, 179, 44)',
+        happyGreen: 'rgb(70, 187, 97)',
+        happyBlue: 'rgb(77, 160, 249)',
+        happyPurple: 'rgb(228, 116, 244)',
         orchidWhite: {
           "50": "#fffcf2", // bg
           "100": "#fef1c7",

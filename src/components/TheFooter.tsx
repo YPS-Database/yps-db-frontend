@@ -16,7 +16,7 @@ function TheFooter() {
             </Link>
           ))}
         </div>
-        <div className="flex text-sm gap-1 flex-col">
+        <div className="flex text-sm gap-1 flex-col text-center">
           <p>Presented by Dr Helen Berents</p>
           <p>Web design and hosting // Daniel Oakley</p>
         </div>

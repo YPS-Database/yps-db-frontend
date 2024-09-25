@@ -46,11 +46,17 @@ header > nav > a, footer a {
 }
 
 .hover-red {
-  @apply border border-[#E72C2C] shadow-sm shadow-[#F2B2C699];
+  @apply border border-happyRed shadow-sm shadow-[#F2B2C699];
 }
 .hover-yellow {
-  @apply border border-[#D2920A] shadow-sm shadow-[#FFEEA5BB];
+  @apply border border-happyYellow shadow-sm shadow-[#FFEEA5BB];
 }
 .hover-green {
-  @apply border border-[#4ABD64] shadow-sm shadow-[#A5FFB1BB];
+  @apply border border-happyGreen shadow-sm shadow-[#A5FFB1BB];
+}
+.hover-blue {
+  @apply border border-happyBlue shadow-sm shadow-[#A5CCFFBA];
+}
+.hover-purple {
+  @apply border border-happyPurple shadow-sm shadow-[#F0A5FFBA];
 }

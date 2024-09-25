@@ -7,11 +7,16 @@ import "@fontsource/open-sans/400.css";
 import "@fontsource/open-sans/500.css";
 import "@fontsource/open-sans/600.css";
 import NotFound from "./routes/NotFound.tsx";
+import Search from "./routes/Search.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Landing />,
+  },
+  {
+    path: "/search",
+    element: <Search />,
   },
   {
     path: "/test",
