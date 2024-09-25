@@ -12,13 +12,20 @@ function TheHeader() {
           <img src={logo} alt="YPS Database logo" className="h-14" />
         </Link>
         <div className="flex gap-2 text-slate-900 dark:text-slate-100">
-        <button className="bg-whiteIce-50 p-2.5 rounded-lg border-whiteIce-200 border-solid border-2 dark:bg-whiteIce-600 dark:border-whiteIce-800"><FeatherIcon icon="sun" /></button>
-        <button className="bg-whiteIce-50 p-2.5 rounded-lg border-whiteIce-200 border-solid border-2 dark:bg-whiteIce-600 dark:border-whiteIce-800"><FeatherIcon icon="search" /></button>
+          <button className="bg-whiteIce-50 p-2.5 rounded-lg border-whiteIce-200 border-solid border-2 dark:bg-whiteIce-600 dark:border-whiteIce-800">
+            <FeatherIcon icon="sun" />
+          </button>
+          <Link
+            to="/"
+            className="bg-whiteIce-50 text-slate-900 dark:text-slate-100 p-2.5 rounded-lg border-whiteIce-200 border-solid border-2 dark:bg-whiteIce-600 dark:border-whiteIce-800"
+          >
+            <FeatherIcon icon="search" />
+          </Link>
         </div>
       </div>
       <nav className="flex items-center justify-start bg-whiteIce-700 px-10 py-2 gap-6 text-sm dark:bg-whiteIce-900">
-        {LinkList.map((l) => (
-          <Link to={l.path} className="flex gap-1.5 items-center">
+        {LinkList.map((l, i) => (
+          <Link to={l.path} className="flex gap-1.5 items-center" key={i}>
             <FeatherIcon icon={l.icon} size="18" />
             {l.name}
           </Link>
