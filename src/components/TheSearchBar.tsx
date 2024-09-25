@@ -22,13 +22,11 @@ function TheSearchBar({defaultValue}: Props) {
           <FeatherIcon icon="search" size="18" />
           <input placeholder="Search for…" value={value} onChange={(e) => setValue(e.target.value)} className="flex-grow" />
         </div>
-        <div>
-          <select className="bg-none pl-3 pr-1.5 py-1 border-l-slate-400 border-l bg-boxBg mr-1">
-            <option>Everything</option>
-            <option>Title</option>
-            <option>Abstract</option>
-          </select>
-        </div>
+        <select className="bg-none pl-3 pr-1.5 py-1 border-l-slate-400 border-l bg-boxBg mr-1">
+          <option>Everything</option>
+          <option>Title</option>
+          <option>Abstract</option>
+        </select>
       </div>
       <div className="rounded-lg border border-slate-400 overflow-hidden">
           <select className="bg-none pl-3 pr-1.5 py-1 bg-boxBg mr-1">

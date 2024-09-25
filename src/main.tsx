@@ -8,6 +8,7 @@ import "@fontsource/open-sans/500.css";
 import "@fontsource/open-sans/600.css";
 import NotFound from "./routes/NotFound.tsx";
 import Search from "./routes/Search.tsx";
+import PreLaunchModal from "./components/PreLaunchModal.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <>
+      <PreLaunchModal />
+      <RouterProvider router={router} />
+    </>
   </StrictMode>
 );

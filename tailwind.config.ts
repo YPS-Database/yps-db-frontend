@@ -14,6 +14,7 @@ module.exports = {
         happyGreen: 'rgb(70, 187, 97)',
         happyBlue: 'rgb(77, 160, 249)',
         happyPurple: 'rgb(228, 116, 244)',
+        happyGrey: '#8685858a',
         orchidWhite: {
           "50": "#fffcf2", // bg
           "100": "#fef1c7",
