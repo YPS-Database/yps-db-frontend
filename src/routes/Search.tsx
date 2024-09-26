@@ -27,7 +27,7 @@ function Search() {
           />
           <span className="invisible">Pad for center \o/</span>
         </div>
-        <div className="flex flex-col w-[66em] max-w-full mx-auto">
+        <div className="flex w-[66em] max-w-full mx-auto gap-3 items-start">
           <div className="flex flex-col gap-4 px-5">
             <SearchEntry
               id="1"
@@ -57,6 +57,22 @@ A Consultation and High-level Dialogue"
               languages={["English", "French", "German"]}
               regions={[]}
             />
+          </div>
+          <div className="rounded-lg bg-boxBg hover-grey py-3.5 pl-5 pr-4 flex flex-col gap-4">
+            <div className="flex gap-3 items-baseline">
+              <label htmlFor="sortBy" className="whitespace-nowrap">
+                Sort by
+              </label>
+              <select
+                className="rounded-lg border border-slate-400 pl-3 pr-1.5 py-1 bg-boxBg mr-1 flex-1"
+                id="sortBy"
+              >
+                <option>Relevance</option>
+                <option>Year (newest first)</option>
+                <option>Year (oldest first)</option>
+                <option>Alphabetical</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
