@@ -12,13 +12,13 @@ interface Props {
 
 function SearchEntry({ id, title, author, year, entryType, languages }: Props) {
   return (
-    <div className="rounded-lg bg-boxBg search-entry py-3.5 px-8 flex flex-col gap-1">
+    <div className="search-entry flex flex-col gap-1 rounded-lg bg-boxBg px-8 py-3.5">
       <h2>{title}</h2>
-      <div className="flex gap-8 text-sm items-baseline">
+      <div className="flex items-baseline gap-8 text-sm">
         <span>{year}</span>
         <span>{author}</span>
       </div>
-      <div className="flex gap-8 text-sm items-baseline mt-1">
+      <div className="mt-1 flex items-baseline gap-8 text-sm">
         <span>{entryType}</span>
         <span className="flex-1">{languages.join(", ")}</span>
         <Link to={`/item/${id}`}>See details</Link>

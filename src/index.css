@@ -3,7 +3,9 @@ html {
   min-height: 100%;
   display: flex;
 }
-body, #root, #root > .App {
+body,
+#root,
+#root > .App {
   min-height: 100%;
   max-width: 100vw;
   flex: 1 1 auto;
@@ -18,13 +20,13 @@ body, #root, #root > .App {
 /* defaults */
 body {
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -41,26 +43,32 @@ a {
   @apply text-blue-700 underline;
 }
 
-header > nav > a, footer a {
+header > nav > a,
+footer a {
   @apply text-whiteIce-50 no-underline;
 }
 
 .hover-grey {
   @apply border border-happyGrey shadow-sm shadow-[#58555629];
 }
-.hover-red, .search-entry:nth-child(5n) {
+.hover-red,
+.search-entry:nth-child(5n) {
   @apply border border-happyRed shadow-sm shadow-[#F2B2C699];
 }
-.hover-yellow, .search-entry:nth-child(5n-4) {
+.hover-yellow,
+.search-entry:nth-child(5n-4) {
   @apply border border-happyYellow shadow-sm shadow-[#FFEEA5BB];
 }
-.hover-green, .search-entry:nth-child(5n-3) {
+.hover-green,
+.search-entry:nth-child(5n-3) {
   @apply border border-happyGreen shadow-sm shadow-[#A5FFB1BB];
 }
-.hover-blue, .search-entry:nth-child(5n-2) {
+.hover-blue,
+.search-entry:nth-child(5n-2) {
   @apply border border-happyBlue shadow-sm shadow-[#A5CCFFBA];
 }
-.hover-purple, .search-entry:nth-child(5n-1) {
+.hover-purple,
+.search-entry:nth-child(5n-1) {
   @apply border border-happyPurple shadow-sm shadow-[#F0A5FFBA];
 }
 
@@ -70,7 +78,7 @@ footer::after {
   background-image: url(img/noise.png);
   background-size: 129px;
   mix-blend-mode: multiply;
-  opacity: .12;
+  opacity: 0.12;
   top: 0;
   left: 0;
   bottom: 0;

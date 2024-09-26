@@ -6,12 +6,12 @@ function Landing() {
   return (
     <>
       <TheHeader />
-      <div id="content" className="flex gap-3 my-8 items-start flex-col px-10">
-        <div className="rounded-lg bg-boxBg hover-red w-full py-6 px-8">
-          <h2 className="text-xl mb-2">Catalogue search</h2>
-          <TheSearchBar defaultValue=""/>
+      <div id="content" className="my-8 flex flex-col items-start gap-3 px-10">
+        <div className="hover-red w-full rounded-lg bg-boxBg px-8 py-6">
+          <h2 className="mb-2 text-xl">Catalogue search</h2>
+          <TheSearchBar defaultValue="" />
         </div>
-        <div className="rounded-lg bg-boxBg hover-yellow w-full py-6 px-8">
+        <div className="hover-yellow w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="text-xl">Browse by</h2>
         </div>
       </div>

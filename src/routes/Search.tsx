@@ -12,11 +12,11 @@ function Search() {
   return (
     <>
       <TheHeader />
-      <div id="content" className="flex gap-3 mb-8 flex-col">
-        <div className="py-3 px-5 flex items-center bg-boxBg border-b border-b-happyRed">
+      <div id="content" className="mb-8 flex flex-col gap-3">
+        <div className="flex items-center border-b border-b-happyRed bg-boxBg px-5 py-3">
           <TheSearchBar defaultValue="Some value here" />
         </div>
-        <div className="flex w-[61em] max-w-full mx-auto justify-between mt-3 items-end mb-0.5 px-8">
+        <div className="mx-auto mb-0.5 mt-3 flex w-[61em] max-w-full items-end justify-between px-8">
           <span className="text-sm">Results: 45&ndash;60 of 130</span>
           <Pagination
             totalPages={9}
@@ -27,7 +27,7 @@ function Search() {
           />
           <span className="invisible">Pad for center \o/</span>
         </div>
-        <div className="flex w-[66em] max-w-full mx-auto gap-3 items-start">
+        <div className="mx-auto flex w-[66em] max-w-full items-start gap-3">
           <div className="flex flex-col gap-4 px-5">
             <SearchEntry
               id="1"
@@ -58,13 +58,13 @@ A Consultation and High-level Dialogue"
               regions={[]}
             />
           </div>
-          <div className="rounded-lg bg-boxBg hover-grey py-3.5 pl-5 pr-4 flex flex-col gap-4">
-            <div className="flex gap-3 items-baseline">
+          <div className="hover-grey flex flex-col gap-4 rounded-lg bg-boxBg py-3.5 pl-5 pr-4">
+            <div className="flex items-baseline gap-3">
               <label htmlFor="sortBy" className="whitespace-nowrap">
                 Sort by
               </label>
               <select
-                className="rounded-lg border border-slate-400 pl-3 pr-1.5 py-1 bg-boxBg mr-1 flex-1"
+                className="mr-1 flex-1 rounded-lg border border-slate-400 bg-boxBg py-1 pl-3 pr-1.5"
                 id="sortBy"
               >
                 <option>Relevance</option>
