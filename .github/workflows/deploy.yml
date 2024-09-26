@@ -39,6 +39,8 @@ jobs:
         run: yarn
       - name: Build
         run: yarn build
+        env:
+          VITE_PRELAUNCH_CODE: ''
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
