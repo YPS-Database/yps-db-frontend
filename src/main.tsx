@@ -13,6 +13,7 @@ import Landing from "./routes/Landing.tsx";
 import NotFound from "./routes/NotFound.tsx";
 import Search from "./routes/Search.tsx";
 import PreLaunchModal from "./components/PreLaunchModal.tsx";
+import TheApp from "./components/TheApp.tsx";
 
 const router = createBrowserRouter([
   {
@@ -36,8 +37,10 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <PreLaunchModal />
-      <RouterProvider router={router} />
+      <TheApp>
+        <PreLaunchModal />
+        <RouterProvider router={router} />
+      </TheApp>
     </Provider>
   </StrictMode>,
 );
