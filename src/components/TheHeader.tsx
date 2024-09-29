@@ -3,8 +3,15 @@ import FeatherIcon from "feather-icons-react";
 
 import logo from "../assets/logo.png";
 import { LinkList } from "../app/internalLinks";
+import { useAppDispatch, useAppSelector } from "../app/store";
+import { nextColourMode } from "../app/preferencesSlice";
 
 function TheHeader() {
+  const dispatch = useAppDispatch();
+  const colourMode = useAppSelector(
+    (content) => content.preferences.colourMode,
+  );
+
   return (
     <header className="sticky top-0">
       <div className="flex items-center justify-between bg-whiteIce-100 px-10 py-1 dark:bg-whiteIce-700">
@@ -12,8 +19,21 @@ function TheHeader() {
           <img src={logo} alt="YPS Database logo" className="h-14" />
         </Link>
         <div className="flex gap-2 text-slate-900 dark:text-slate-100">
-          <button className="rounded-lg border-2 border-solid border-whiteIce-200 bg-whiteIce-50 p-2.5 dark:border-whiteIce-800 dark:bg-whiteIce-600">
-            <FeatherIcon icon="sun" />
+          <button
+            className="rounded-lg border-2 border-solid border-whiteIce-200 bg-whiteIce-50 p-2.5 dark:border-whiteIce-800 dark:bg-whiteIce-600"
+            onClick={() => {
+              dispatch(nextColourMode());
+            }}
+          >
+            <FeatherIcon
+              icon={
+                colourMode === "light"
+                  ? "sun"
+                  : colourMode === "dark"
+                    ? "moon"
+                    : "monitor"
+              }
+            />
           </button>
           <Link
             to="/"

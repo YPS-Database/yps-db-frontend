@@ -1,10 +1,19 @@
 import TheHeader from "../components/TheHeader";
 import TheFooter from "../components/TheFooter";
 import TheSearchBar from "../components/TheSearchBar";
+import { useAppSelector } from "../app/store";
 
 function Landing() {
+  const isDarkMode = useAppSelector((content) => {
+    return (
+      content.preferences.colourMode === "dark" ||
+      (content.preferences.colourMode === "system" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+  });
+
   return (
-    <>
+    <div className={isDarkMode ? "dark" : ""}>
       <TheHeader />
       <div id="content" className="my-8 flex flex-col items-start gap-3 px-10">
         <div className="hover-red w-full rounded-lg bg-boxBg px-8 py-6">
@@ -16,7 +25,7 @@ function Landing() {
         </div>
       </div>
       <TheFooter />
-    </>
+    </div>
   );
 }
 
