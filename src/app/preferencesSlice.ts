@@ -5,12 +5,13 @@ interface PreferencesState {
 }
 
 const initialState: PreferencesState = {
+  // default to 'light'
   colourMode:
     localStorage.getItem("colourMode") === "dark"
       ? "dark"
-      : localStorage.getItem("colourMode") === "light"
-        ? "light"
-        : "system",
+      : localStorage.getItem("colourMode") === "system"
+        ? "system"
+        : "light",
 };
 
 export const preferencesSlice = createSlice({
