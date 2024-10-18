@@ -2,6 +2,7 @@ import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { useDispatch, useSelector, useStore } from "react-redux";
 
+import { api } from "./apiSlice";
 import { preferencesSlice } from "./preferencesSlice";
 
 // listener middleware, used to send store data to local storage
@@ -9,13 +10,16 @@ const listenerMiddleware = createListenerMiddleware();
 
 export const store = configureStore({
   reducer: {
+    [api.reducerPath]: api.reducer,
     preferences: preferencesSlice.reducer,
   },
 
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(listenerMiddleware.middleware),
+    getDefaultMiddleware()
+      .prepend(listenerMiddleware.middleware)
+      .concat(api.middleware),
 });
 
 export type AppStore = typeof store;

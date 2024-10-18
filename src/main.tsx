@@ -14,6 +14,7 @@ import NotFound from "./routes/NotFound.tsx";
 import Search from "./routes/Search.tsx";
 import PreLaunchModal from "./components/PreLaunchModal.tsx";
 import TheApp from "./components/TheApp.tsx";
+import DynamicPage from "./routes/DynamicPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <div className="text-lg">Hello world!</div>,
+  },
+  {
+    path: "/about",
+    element: <DynamicPage slug="about" />,
   },
   {
     path: "*",
