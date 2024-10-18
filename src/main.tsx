@@ -26,12 +26,20 @@ const router = createBrowserRouter([
     element: <Search />,
   },
   {
-    path: "/test",
-    element: <div className="text-lg">Hello world!</div>,
+    path: "/about",
+    element: <DynamicPage title="About" slug="about" />,
   },
   {
-    path: "/about",
-    element: <DynamicPage slug="about" />,
+    path: "/publications",
+    element: <DynamicPage title="Publications" slug="publications" />,
+  },
+  {
+    path: "/data",
+    element: <DynamicPage title="Dataset" slug="data" />,
+  },
+  {
+    path: "/submit",
+    element: <DynamicPage title="Submit a document" slug="submit" />,
   },
   {
     path: "*",

@@ -72,6 +72,12 @@ footer a {
   @apply border border-happyPurple shadow-sm shadow-[#F0A5FFBA];
 }
 
+.markdown-page-content {
+  p + p {
+    @apply mt-4;
+  }
+}
+
 /* rusty bg for footer */
 footer::after {
   content: "";

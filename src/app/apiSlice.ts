@@ -11,7 +11,8 @@ interface UpdatePageRequest {
 
 interface GetPageResponse {
   id: string;
-  html: string;
+  markdown: string;
+  google_form_id: string;
   updated: number;
 }
 
