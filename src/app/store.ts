@@ -4,6 +4,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 
 import { api } from "./apiSlice";
 import { preferencesSlice } from "./preferencesSlice";
+import { userProfileSlice } from "./userProfileSlice";
 
 // listener middleware, used to send store data to local storage
 const listenerMiddleware = createListenerMiddleware();
@@ -12,6 +13,7 @@ export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     preferences: preferencesSlice.reducer,
+    userProfile: userProfileSlice.reducer,
   },
 
   // Adding the api middleware enables caching, invalidation, polling,

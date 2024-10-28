@@ -1,6 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { SearchEntry } from "../types";
 
+interface LoginRequest {
+  password: string;
+}
+
+interface LoginResponse {
+  token: string;
+  level: "user" | "admin" | "superuser";
+  exp: string;
+}
+
 interface UpdatePageRequest {
   token: string;
   id: string;
@@ -44,6 +54,18 @@ export const api = createApi({
   }),
   tagTypes: ["pages", "entries", "browsebyfields"],
   endpoints: (build) => ({
+    // auth
+    //
+    login: build.mutation<LoginResponse, LoginRequest>({
+      query: ({ password }) => ({
+        url: `auth`,
+        method: "POST",
+        body: {
+          password,
+        },
+      }),
+    }),
+
     // pages
     //
     updatePage: build.mutation<OkResponse, UpdatePageRequest>({
@@ -84,6 +106,7 @@ export const api = createApi({
 });
 
 export const {
+  useLoginMutation,
   useUpdatePageMutation,
   useGetPageQuery,
   useGetBrowseByFieldsQuery,

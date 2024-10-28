@@ -15,6 +15,10 @@ import Search from "./routes/Search.tsx";
 import PreLaunchModal from "./components/PreLaunchModal.tsx";
 import TheApp from "./components/TheApp.tsx";
 import DynamicPage from "./routes/DynamicPage.tsx";
+import AdminRoot from "./routes/AdminRoot.tsx";
+import Login from "./routes/Login.tsx";
+import Logout from "./routes/Logout.tsx";
+import AdminDashboard from "./routes/AdminDashboard.tsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +44,23 @@ const router = createBrowserRouter([
   {
     path: "/submit",
     element: <DynamicPage title="Submit a document" slug="submit" />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
+  },
+  {
+    element: <AdminRoot />,
+    children: [
+      {
+        path: "/admin",
+        element: <AdminDashboard />,
+      },
+    ],
   },
   {
     path: "*",
