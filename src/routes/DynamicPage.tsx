@@ -30,7 +30,7 @@ function DynamicPage({ title, slug }: Props) {
             </Markdown>
             {data?.google_form_id && (
               <a className="mt-5 block" href={`${data?.google_form_id}`}>
-                Google form link
+                View submission form
               </a>
             )}
           </div>

@@ -72,6 +72,10 @@ footer a {
   @apply border border-happyPurple shadow-sm shadow-[#F0A5FFBA];
 }
 
+.browseByLink + .browseByLink::before {
+  content: ", ";
+}
+
 .markdown-page-content {
   p + p {
     @apply mt-4;

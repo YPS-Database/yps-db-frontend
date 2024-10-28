@@ -4,15 +4,21 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   defaultValue: string;
+  onSearch?: (query: string) => void;
 }
 
-function TheSearchBar({ defaultValue }: Props) {
+function TheSearchBar({ defaultValue, onSearch }: Props) {
   const [value, setValue] = useState(defaultValue);
   const navigate = useNavigate();
 
   function search(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    navigate("/search");
+
+    if (onSearch) {
+      onSearch(value);
+    } else {
+      navigate("/search");
+    }
   }
 
   return (

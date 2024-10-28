@@ -4,17 +4,20 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      gridTemplateColumns: {
+        browseBy: "minmax(8rem, max-content) 1fr",
+      },
       boxShadow: {
         card: "0 3px 7px 2px rgba(7, 30, 54, 0.22)",
       },
       colors: {
-        boxBg: '#fffdfd',
-        happyRed: 'rgb(247, 85, 85)',
-        happyYellow: 'rgb(244, 179, 44)',
-        happyGreen: 'rgb(70, 187, 97)',
-        happyBlue: 'rgb(77, 160, 249)',
-        happyPurple: 'rgb(228, 116, 244)',
-        happyGrey: '#8685858a',
+        boxBg: "#fffdfd",
+        happyRed: "rgb(247, 85, 85)",
+        happyYellow: "rgb(244, 179, 44)",
+        happyGreen: "rgb(70, 187, 97)",
+        happyBlue: "rgb(77, 160, 249)",
+        happyPurple: "rgb(228, 116, 244)",
+        happyGrey: "#8685858a",
         orchidWhite: {
           "50": "#fffcf2", // bg
           "100": "#fef1c7",
@@ -52,8 +55,8 @@ module.exports = {
           700: "#874344", // footer
           800: "#5A2B2B",
           900: "#2E1615",
-          950: "#190C0B"
-        }
+          950: "#190C0B",
+        },
       },
     },
   },

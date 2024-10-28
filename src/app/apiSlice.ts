@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { SearchEntry } from "../types";
 
 interface UpdatePageRequest {
   token: string;
@@ -16,6 +17,20 @@ interface GetPageResponse {
   updated: number;
 }
 
+interface BrowseByFieldsResponse {
+  values: Map<string, string[]>;
+}
+
+interface SearchEntriesRequest {
+  query: string;
+  page: number;
+}
+
+interface SearchEntriesResponse {
+  entries: SearchEntry[];
+  total_pages: number;
+}
+
 interface OkResponse {
   ok: boolean;
 }
@@ -25,7 +40,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_YPSDB_API,
   }),
-  tagTypes: ["pages", "entries"],
+  tagTypes: ["pages", "entries", "browsebyfields"],
   endpoints: (build) => ({
     // pages
     //
@@ -44,7 +59,29 @@ export const api = createApi({
       query: (id) => `page/${id}`,
       // providesTags: ["pages"],
     }),
+
+    // entries
+    //
+    getBrowseByFields: build.query<BrowseByFieldsResponse, void>({
+      query: () => `browseby`,
+      providesTags: ["browsebyfields"],
+    }),
+    searchEntries: build.query<SearchEntriesResponse, SearchEntriesRequest>({
+      query: ({ query, page }) => ({
+        url: `search`,
+        method: "GET",
+        params: {
+          q: query,
+          page,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useUpdatePageMutation, useGetPageQuery } = api;
+export const {
+  useUpdatePageMutation,
+  useGetPageQuery,
+  useGetBrowseByFieldsQuery,
+  useSearchEntriesQuery,
+} = api;
