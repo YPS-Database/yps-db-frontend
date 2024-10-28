@@ -39,8 +39,8 @@ function Login() {
             }}
           >
             <div className="flex flex-1 overflow-hidden rounded-lg border border-slate-400">
-              <div className="flex flex-1 items-center gap-2 pl-2">
-                <FeatherIcon icon="search" size="18" />
+              <div className="flex flex-1 items-center gap-2 px-2">
+                <FeatherIcon icon="key" size="18" />
                 <input
                   placeholder="Enter password..."
                   value={password}

@@ -8,9 +8,8 @@ import { nextColourMode } from "../app/preferencesSlice";
 
 function TheHeader() {
   const dispatch = useAppDispatch();
-  const colourMode = useAppSelector(
-    (content) => content.preferences.colourMode,
-  );
+  const colourMode = useAppSelector((state) => state.preferences.colourMode);
+  const user = useAppSelector((state) => state.userProfile);
 
   const displayColourModeSwitcher = false;
 
@@ -45,6 +44,14 @@ function TheHeader() {
           >
             <FeatherIcon icon="search" />
           </Link>
+          {(user.level === "admin" || user.level === "superuser") && (
+            <Link
+              to="admin"
+              className="rounded-lg border-2 border-solid border-whiteIce-200 bg-whiteIce-50 p-2.5 text-slate-900 dark:border-whiteIce-800 dark:bg-whiteIce-600 dark:text-slate-100"
+            >
+              <FeatherIcon icon="settings" />
+            </Link>
+          )}
         </div>
       </div>
       <nav className="flex items-center justify-start gap-6 bg-whiteIce-700 px-10 py-2 text-sm dark:bg-whiteIce-900">
@@ -54,6 +61,12 @@ function TheHeader() {
             {l.name}
           </Link>
         ))}
+        {(user.level === "admin" || user.level === "superuser") && (
+          <Link to="/admin" className="flex items-center gap-1.5">
+            <FeatherIcon icon="settings" size="18" />
+            Admin dashboard
+          </Link>
+        )}
       </nav>
     </header>
   );

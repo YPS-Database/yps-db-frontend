@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import TheHeader from "../components/TheHeader";
 import TheFooter from "../components/TheFooter";
 import { useEffect } from "react";
