@@ -19,6 +19,7 @@ import AdminRoot from "./routes/AdminRoot.tsx";
 import Login from "./routes/Login.tsx";
 import Logout from "./routes/Logout.tsx";
 import AdminDashboard from "./routes/AdminDashboard.tsx";
+import EditDynamicPage from "./routes/EditDynamicPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,22 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: <AdminDashboard />,
+      },
+      {
+        path: "/admin/edit-page/about",
+        element: <EditDynamicPage title="About" slug="about" />,
+      },
+      {
+        path: "/admin/edit-page/publications",
+        element: <EditDynamicPage title="Publications" slug="publications" />,
+      },
+      {
+        path: "/admin/edit-page/data",
+        element: <EditDynamicPage title="Dataset" slug="data" />,
+      },
+      {
+        path: "/admin/edit-page/submit",
+        element: <EditDynamicPage title="Submit a document" slug="submit" />,
       },
     ],
   },

@@ -24,10 +24,10 @@ function AdminDashboard() {
 
           <div className="my-4 flex flex-col">
             <h3 className="text-lg">Edit pages</h3>
-            <Link to="/admin/edit-page?slug=about">About</Link>
-            <Link to="/admin/edit-page?slug=publications">Publications</Link>
-            <Link to="/admin/edit-page?slug=data">Dataset</Link>
-            <Link to="/admin/edit-page?slug=submit">Submit a document</Link>
+            <Link to="/admin/edit-page/about">About</Link>
+            <Link to="/admin/edit-page/publications">Publications</Link>
+            <Link to="/admin/edit-page/data">Dataset</Link>
+            <Link to="/admin/edit-page/submit">Submit a document</Link>
           </div>
 
           <div className="my-4 flex flex-col">

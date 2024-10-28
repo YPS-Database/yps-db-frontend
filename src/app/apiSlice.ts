@@ -11,13 +11,11 @@ interface LoginResponse {
   exp: string;
 }
 
-interface UpdatePageRequest {
+interface EditPageRequest {
   token: string;
   id: string;
-  body: {
-    content: string;
-    googleFormId: string;
-  };
+  content: string;
+  google_form_id: string;
 }
 
 interface GetPageResponse {
@@ -43,8 +41,9 @@ interface SearchEntriesResponse {
   total_pages: number;
 }
 
-interface OkResponse {
+interface OkUpdatedTimeResponse {
   ok: boolean;
+  updated: string;
 }
 
 export const api = createApi({
@@ -68,20 +67,23 @@ export const api = createApi({
 
     // pages
     //
-    updatePage: build.mutation<OkResponse, UpdatePageRequest>({
-      query: ({ token, body }) => ({
-        url: `categories`,
+    editPage: build.mutation<OkUpdatedTimeResponse, EditPageRequest>({
+      query: ({ token, id, content, google_form_id }) => ({
+        url: `page/${id}`,
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body,
+        body: {
+          content,
+          google_form_id,
+        },
       }),
       invalidatesTags: ["pages"],
     }),
     getPage: build.query<GetPageResponse, string>({
       query: (id) => `page/${id}`,
-      // providesTags: ["pages"],
+      providesTags: ["pages"],
     }),
 
     // entries
@@ -107,7 +109,7 @@ export const api = createApi({
 
 export const {
   useLoginMutation,
-  useUpdatePageMutation,
+  useEditPageMutation,
   useGetPageQuery,
   useGetBrowseByFieldsQuery,
   useSearchEntriesQuery,
