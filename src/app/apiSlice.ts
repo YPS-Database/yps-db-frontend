@@ -23,6 +23,8 @@ interface BrowseByFieldsResponse {
 
 interface SearchEntriesRequest {
   query: string;
+  searchContext: string;
+  language: string;
   page: number;
 }
 
@@ -67,11 +69,13 @@ export const api = createApi({
       providesTags: ["browsebyfields"],
     }),
     searchEntries: build.query<SearchEntriesResponse, SearchEntriesRequest>({
-      query: ({ query, page }) => ({
+      query: ({ query, searchContext, language, page }) => ({
         url: `search`,
         method: "GET",
         params: {
-          q: query,
+          query,
+          queryContext: searchContext,
+          language,
           page,
         },
       }),

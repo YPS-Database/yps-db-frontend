@@ -1,23 +1,43 @@
 import FeatherIcon from "feather-icons-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 interface Props {
   defaultValue: string;
-  onSearch?: (query: string) => void;
+  defaultContext?: string;
+  defaultLanguage?: string;
+  onSearch?: (
+    query: string,
+    searchContext: string,
+    searchLanguage: string,
+  ) => void;
 }
 
-function TheSearchBar({ defaultValue, onSearch }: Props) {
+function TheSearchBar({
+  defaultValue,
+  defaultContext,
+  defaultLanguage,
+  onSearch,
+}: Props) {
   const [value, setValue] = useState(defaultValue);
+  const [searchContext, setSearchContext] = useState(defaultContext || "all");
+  const [language, setLanguage] = useState(defaultLanguage || "all");
   const navigate = useNavigate();
 
   function search(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (onSearch) {
-      onSearch(value);
+      onSearch(value, searchContext, language);
     } else {
-      navigate("/search");
+      navigate({
+        pathname: "/search",
+        search: createSearchParams({
+          q: value,
+          context: searchContext,
+          lang: language,
+        }).toString(),
+      });
     }
   }
 
@@ -36,18 +56,26 @@ function TheSearchBar({ defaultValue, onSearch }: Props) {
             className="flex-grow"
           />
         </div>
-        <select className="mr-1 border-l border-l-slate-400 bg-boxBg py-1 pl-3 pr-1.5">
-          <option>Everything</option>
-          <option>Title</option>
-          <option>Abstract</option>
+        <select
+          className="mr-1 border-l border-l-slate-400 bg-boxBg py-1 pl-3 pr-1.5"
+          value={searchContext}
+          onChange={(e) => setSearchContext(e.target.value)}
+        >
+          <option value="all">Everything</option>
+          <option value="title">Title</option>
+          <option value="abstract">Abstract</option>
         </select>
       </div>
       <div className="overflow-hidden rounded-lg border border-slate-400">
-        <select className="mr-1 bg-boxBg py-1 pl-3 pr-1.5">
-          <option>All languages</option>
-          <option>English</option>
-          <option>French</option>
-          <option>German</option>
+        <select
+          className="mr-1 bg-boxBg py-1 pl-3 pr-1.5"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option value="all">All languages</option>
+          <option value="English">English</option>
+          <option value="French">French</option>
+          <option value="German">German</option>
         </select>
       </div>
       <button

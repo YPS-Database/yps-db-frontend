@@ -7,15 +7,27 @@ import SearchEntry from "../components/SearchEntry";
 import Pagination from "../components/Pagination";
 import { useSearchEntriesQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
+import { useSearchParams } from "react-router-dom";
 
 function Search() {
-  // TODO: init this based on query string info
-  const [textValue, setTextValue] = useState("Some value here");
+  const [searchBarParams, setSearchBarParams] = useSearchParams();
+
+  const [textValue, setTextValue] = useState(
+    searchBarParams.get("q") || "Search",
+  );
+  const [searchContext, setSearchContext] = useState(
+    searchBarParams.get("context") || "all",
+  );
+  const [searchLanguage, setSearchLanguage] = useState(
+    searchBarParams.get("lang") || "all",
+  );
 
   const [page, setPage] = useState(1);
   const { data, isLoading } = useSearchEntriesQuery({
     query: textValue,
-    page: page,
+    searchContext,
+    page,
+    language: searchLanguage,
   });
 
   return (
@@ -26,8 +38,18 @@ function Search() {
         <div className="flex items-center border-b border-b-happyRed bg-boxBg px-5 py-3">
           <TheSearchBar
             defaultValue={textValue}
-            onSearch={(query) => {
+            defaultContext={searchContext}
+            defaultLanguage={searchLanguage}
+            onSearch={(query, context, lang) => {
+              setSearchBarParams((params) => {
+                params.set("q", query);
+                params.set("context", context);
+                params.set("lang", lang);
+                return params;
+              });
               setTextValue(query);
+              setSearchContext(context);
+              setSearchLanguage(lang);
             }}
           />
         </div>
