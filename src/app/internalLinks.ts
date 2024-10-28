@@ -16,7 +16,7 @@ export const LinkList = [
   },
   {
     path: "/submit",
-    name: "Submit document",
+    name: "Suggest a resource",
     icon: "mail",
   },
 ];

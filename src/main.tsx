@@ -20,6 +20,7 @@ import Login from "./routes/Login.tsx";
 import Logout from "./routes/Logout.tsx";
 import AdminDashboard from "./routes/AdminDashboard.tsx";
 import EditDynamicPage from "./routes/EditDynamicPage.tsx";
+import UploadDatabase from "./routes/UploadDatabase.tsx";
 
 const router = createBrowserRouter([
   {
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/submit",
-    element: <DynamicPage title="Submit a document" slug="submit" />,
+    element: <DynamicPage title="Suggest a resource" slug="submit" />,
   },
   {
     path: "/login",
@@ -62,6 +63,14 @@ const router = createBrowserRouter([
         element: <AdminDashboard />,
       },
       {
+        path: "/admin/upload-db",
+        element: <UploadDatabase />,
+      },
+      {
+        path: "/admin/edit-page/home",
+        element: <EditDynamicPage title="Landing" slug="home" />,
+      },
+      {
         path: "/admin/edit-page/about",
         element: <EditDynamicPage title="About" slug="about" />,
       },
@@ -75,7 +84,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/edit-page/submit",
-        element: <EditDynamicPage title="Submit a document" slug="submit" />,
+        element: <EditDynamicPage title="Suggest a resource" slug="submit" />,
       },
     ],
   },

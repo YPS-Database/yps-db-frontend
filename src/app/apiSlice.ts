@@ -25,6 +25,11 @@ interface GetPageResponse {
   updated: number;
 }
 
+interface UploadDbRequest {
+  token: string;
+  db: File;
+}
+
 interface BrowseByFieldsResponse {
   values: Map<string, string[]>;
 }
@@ -88,6 +93,21 @@ export const api = createApi({
 
     // entries
     //
+    checkUploadNewDb: build.mutation<OkUpdatedTimeResponse, UploadDbRequest>({
+      query: ({ token, db }) => {
+        const body = new FormData();
+        body.append("db", db);
+        return {
+          url: `db`,
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body,
+          formData: true,
+        };
+      },
+    }),
     getBrowseByFields: build.query<BrowseByFieldsResponse, void>({
       query: () => `browseby`,
       providesTags: ["browsebyfields"],
@@ -111,6 +131,7 @@ export const {
   useLoginMutation,
   useEditPageMutation,
   useGetPageQuery,
+  useCheckUploadNewDbMutation,
   useGetBrowseByFieldsQuery,
   useSearchEntriesQuery,
 } = api;

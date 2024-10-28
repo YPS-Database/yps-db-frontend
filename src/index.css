@@ -77,6 +77,18 @@ footer a {
 }
 
 .markdown-page-content {
+  h2 {
+    @apply mb-1.5 mt-6 text-lg font-semibold;
+  }
+
+  blockquote {
+    @apply my-2 border-l-4 border-l-rustyRed-100 py-1 pl-4;
+  }
+
+  ul li {
+    @apply my-2 ml-5 list-disc;
+  }
+
   p + p {
     @apply mt-4;
   }
