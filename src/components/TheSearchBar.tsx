@@ -73,9 +73,17 @@ function TheSearchBar({
           onChange={(e) => setLanguage(e.target.value)}
         >
           <option value="all">All languages</option>
-          <option value="English">English</option>
-          <option value="French">French</option>
-          <option value="German">German</option>
+          <option value="en">English</option>
+          <option value="ar">Arabic</option>
+          <option value="zh">Chinese</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="el">Greek</option>
+          <option value="ko">Korean</option>
+          <option value="ru">Russian</option>
+          <option value="si">Sinhala</option>
+          <option value="pt">Spanish</option>
+          <option value="ta">Tamil</option>
         </select>
       </div>
       <button

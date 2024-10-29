@@ -44,11 +44,16 @@ interface SearchEntriesRequest {
   searchContext: string;
   language: string;
   page: number;
+  sortBy: string;
 }
 
 interface SearchEntriesResponse {
-  entries: SearchEntry[];
+  page: number;
   total_pages: number;
+  total_entries: number;
+  start_entry: number;
+  end_entry: number;
+  entries: SearchEntry[];
 }
 
 interface OkUpdatedTimeResponse {
@@ -138,7 +143,7 @@ export const api = createApi({
       providesTags: ["browsebyfields"],
     }),
     searchEntries: build.query<SearchEntriesResponse, SearchEntriesRequest>({
-      query: ({ query, searchContext, language, page }) => ({
+      query: ({ query, searchContext, language, page, sortBy }) => ({
         url: `search`,
         method: "GET",
         params: {
@@ -146,6 +151,7 @@ export const api = createApi({
           queryContext: searchContext,
           language,
           page,
+          sort: sortBy,
         },
       }),
     }),
