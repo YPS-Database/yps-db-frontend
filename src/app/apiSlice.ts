@@ -30,6 +30,11 @@ interface UploadDbRequest {
   db: File;
 }
 
+interface CheckUploadNewDbResponse {
+  total_entries: number;
+  new_entries: number;
+}
+
 interface BrowseByFieldsResponse {
   values: Map<string, string[]>;
 }
@@ -93,12 +98,32 @@ export const api = createApi({
 
     // entries
     //
-    checkUploadNewDb: build.mutation<OkUpdatedTimeResponse, UploadDbRequest>({
+    checkUploadNewDb: build.mutation<CheckUploadNewDbResponse, UploadDbRequest>(
+      {
+        query: ({ token, db }) => {
+          const body = new FormData();
+          body.append("db", db);
+          return {
+            url: `db`,
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body,
+            formData: true,
+          };
+        },
+      },
+    ),
+    applyDbUpdate: build.mutation<CheckUploadNewDbResponse, UploadDbRequest>({
       query: ({ token, db }) => {
         const body = new FormData();
         body.append("db", db);
         return {
           url: `db`,
+          params: {
+            apply: true,
+          },
           method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,6 +156,7 @@ export const {
   useLoginMutation,
   useEditPageMutation,
   useGetPageQuery,
+  useApplyDbUpdateMutation,
   useCheckUploadNewDbMutation,
   useGetBrowseByFieldsQuery,
   useSearchEntriesQuery,
