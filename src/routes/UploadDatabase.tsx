@@ -10,6 +10,14 @@ function UploadDatabase() {
   const [checkDb, { isLoading: isLoadingCheck, error: checkError }] =
     useCheckUploadNewDbMutation();
 
+  const errorMsg = checkError
+    ? "error" in checkError
+      ? checkError.error
+      : JSON.stringify("data" in checkError ? checkError.data : {})
+    : "";
+
+  console.log("error message:", errorMsg);
+
   return (
     <>
       {isLoadingCheck && <TheLoadingModal />}
@@ -52,7 +60,8 @@ function UploadDatabase() {
           </Dropzone>
           {checkError && (
             <div className="mt-2 text-center text-red-600">
-              Could not upload new database.
+              <p>Could not upload new database.</p>
+              {errorMsg && <p>{errorMsg}</p>}
             </div>
           )}
         </div>
