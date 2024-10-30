@@ -17,7 +17,7 @@ function Search() {
     searchBarParams.get("context") || "all",
   );
   const [searchLanguage, setSearchLanguage] = useState(
-    searchBarParams.get("lang") || "all",
+    searchBarParams.get("lang") || "en",
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [filterKey, setFilterKey] = useState(

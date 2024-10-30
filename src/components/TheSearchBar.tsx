@@ -21,7 +21,7 @@ function TheSearchBar({
 }: Props) {
   const [value, setValue] = useState(defaultValue);
   const [searchContext, setSearchContext] = useState(defaultContext || "all");
-  const [language, setLanguage] = useState(defaultLanguage || "all");
+  const [language, setLanguage] = useState(defaultLanguage || "en");
   const navigate = useNavigate();
 
   function search(e: React.FormEvent<HTMLFormElement>) {
