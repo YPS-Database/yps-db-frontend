@@ -21,15 +21,14 @@ function Landing() {
         </div>
         <div className="hover-yellow w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="text-xl">Browse by</h2>
-          <div className="mt-3 grid grid-cols-browseBy gap-x-5 gap-y-3">
+          <div className="mt-3 flex flex-col gap-x-5 gap-y-3 md:grid md:grid-cols-browseBy">
             {browseBy &&
               Object.entries(browseBy.values).map((info, i) => {
                 return (
                   <React.Fragment key={i}>
                     <div>{improveFilterName(info[0])}</div>
-                    <div>
-                      {info[1].map((value: string, i: number) => [
-                        i > 0 && ", ",
+                    <div className="flex flex-wrap gap-x-4">
+                      {info[1].map((value: string) => [
                         <Link
                           key={value}
                           to={{

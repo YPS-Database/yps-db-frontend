@@ -43,21 +43,21 @@ function TheSearchBar({
 
   return (
     <form
-      className="mx-auto flex w-[55em] max-w-full items-center justify-center gap-3"
+      className="mx-auto flex w-[55em] max-w-full flex-col items-start justify-center gap-3 md:flex-row md:items-stretch"
       onSubmit={search}
     >
-      <div className="flex flex-1 overflow-hidden rounded-lg border border-slate-400">
+      <div className="flex w-full flex-1 flex-col overflow-hidden rounded-lg border border-slate-400 sm:flex-row md:w-auto">
         <div className="flex flex-1 items-center gap-2 pl-2">
           <FeatherIcon icon="search" size="18" />
           <input
             placeholder="Search for…"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="flex-grow"
+            className="flex-grow py-1"
           />
         </div>
         <select
-          className="mr-1 border-l border-l-slate-400 bg-boxBg py-1 pl-3 pr-1.5"
+          className="border-t border-t-slate-400 bg-boxBg py-1 pl-3 pr-1.5 sm:mr-1 sm:border-l sm:border-t-0 sm:border-l-slate-400"
           value={searchContext}
           onChange={(e) => setSearchContext(e.target.value)}
         >

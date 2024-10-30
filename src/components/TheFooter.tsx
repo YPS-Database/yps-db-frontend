@@ -6,7 +6,7 @@ import { LinkList } from "../app/internalLinks";
 
 function TheFooter() {
   return (
-    <footer className="relative flex items-center justify-between bg-rustyRed-700 px-10 py-6 text-slate-100">
+    <footer className="relative flex flex-col items-center justify-between gap-y-6 bg-rustyRed-700 px-10 py-6 text-slate-100 sm:flex-row">
       <div className="z-10 flex flex-col gap-1 text-sm">
         {LinkList.map((l, i) => (
           <Link to={l.path} className="flex items-center gap-1.5" key={i}>

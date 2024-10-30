@@ -54,7 +54,7 @@ function TheHeader() {
           )}
         </div>
       </div>
-      <nav className="flex items-center justify-start gap-6 bg-whiteIce-700 px-10 py-2 text-sm dark:bg-whiteIce-900">
+      <nav className="flex flex-wrap items-center justify-start gap-x-6 gap-y-2 bg-whiteIce-700 px-10 py-2 text-sm dark:bg-whiteIce-900">
         {LinkList.map((l, i) => (
           <Link to={l.path} className="flex items-center gap-1.5" key={i}>
             <FeatherIcon icon={l.icon} size="18" />
