@@ -56,13 +56,13 @@ function TheHeader() {
       </div>
       <nav className="z-10 flex flex-wrap items-center justify-start gap-x-6 gap-y-2 bg-whiteIce-800 px-10 py-2 text-sm dark:bg-whiteIce-900">
         {LinkList.map((l, i) => (
-          <Link to={l.path} className="flex items-center gap-1.5" key={i}>
+          <Link to={l.path} className="z-20 flex items-center gap-1.5" key={i}>
             <FeatherIcon icon={l.icon} size="18" />
             {l.name}
           </Link>
         ))}
         {(user.level === "admin" || user.level === "superuser") && (
-          <Link to="/admin" className="flex items-center gap-1.5">
+          <Link to="/admin" className="z-20 flex items-center gap-1.5">
             <FeatherIcon icon="settings" size="18" />
             Admin dashboard
           </Link>
