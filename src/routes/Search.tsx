@@ -19,6 +19,14 @@ function Search() {
   const [searchLanguage, setSearchLanguage] = useState(
     searchBarParams.get("lang") || "all",
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [filterKey, setFilterKey] = useState(
+    searchBarParams.get("filter_key") || "",
+  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [filterValue, setFilterValue] = useState(
+    searchBarParams.get("filter_value") || "",
+  );
   const [sortBy, setSortBy] = useState(
     searchBarParams.get("sort") || "relevance",
   );
@@ -29,6 +37,8 @@ function Search() {
     searchContext,
     page,
     language: searchLanguage,
+    filterKey,
+    filterValue,
     sortBy,
   });
 

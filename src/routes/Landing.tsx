@@ -4,6 +4,8 @@ import TheSearchBar from "../components/TheSearchBar";
 import { useGetBrowseByFieldsQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import React from "react";
+import { improveFilterName } from "../app/utilities";
+import { createSearchParams, Link } from "react-router-dom";
 
 function Landing() {
   const { data: browseBy, isLoading } = useGetBrowseByFieldsQuery();
@@ -19,18 +21,28 @@ function Landing() {
         </div>
         <div className="hover-yellow w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="text-xl">Browse by</h2>
-          <div className="grid-cols-browseBy mt-3 grid gap-x-5 gap-y-3">
+          <div className="mt-3 grid grid-cols-browseBy gap-x-5 gap-y-3">
             {browseBy &&
               Object.entries(browseBy.values).map((info, i) => {
                 return (
                   <React.Fragment key={i}>
-                    <div>{info[0]}</div>
+                    <div>{improveFilterName(info[0])}</div>
                     <div>
-                      {info[1].map((value: string) => (
-                        <span key={value} className="browseByLink">
+                      {info[1].map((value: string, i: number) => [
+                        i > 0 && ", ",
+                        <Link
+                          key={value}
+                          to={{
+                            pathname: "/search",
+                            search: createSearchParams([
+                              ["filter_key", info[0]],
+                              ["filter_value", value],
+                            ]).toString(),
+                          }}
+                        >
                           {value}
-                        </span>
-                      ))}
+                        </Link>,
+                      ])}
                     </div>
                   </React.Fragment>
                 );

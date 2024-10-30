@@ -44,6 +44,8 @@ interface SearchEntriesRequest {
   searchContext: string;
   language: string;
   page: number;
+  filterKey: string;
+  filterValue: string;
   sortBy: string;
 }
 
@@ -143,13 +145,23 @@ export const api = createApi({
       providesTags: ["browsebyfields"],
     }),
     searchEntries: build.query<SearchEntriesResponse, SearchEntriesRequest>({
-      query: ({ query, searchContext, language, page, sortBy }) => ({
+      query: ({
+        query,
+        searchContext,
+        language,
+        page,
+        filterKey,
+        filterValue,
+        sortBy,
+      }) => ({
         url: `search`,
         method: "GET",
         params: {
           query,
           queryContext: searchContext,
           language,
+          filterKey,
+          filterValue,
           page,
           sort: sortBy,
         },

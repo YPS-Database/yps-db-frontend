@@ -72,10 +72,6 @@ footer a {
   @apply border border-happyPurple shadow-sm shadow-[#F0A5FFBA];
 }
 
-.browseByLink + .browseByLink::before {
-  content: ", ";
-}
-
 .markdown-page-content {
   h2 {
     @apply mb-1.5 mt-6 text-lg font-semibold;
