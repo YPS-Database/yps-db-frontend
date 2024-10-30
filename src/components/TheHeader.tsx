@@ -16,10 +16,10 @@ function TheHeader() {
   return (
     <header className="sticky top-0">
       <div className="flex items-center justify-between bg-whiteIce-700 px-10 py-1 dark:bg-whiteIce-700">
-        <Link to="/" className="flex items-center gap-3 px-2 py-2">
+        <Link to="/" className="z-10 flex items-center gap-3 px-2 py-2">
           <img src={logoLight} alt="YPS Database logo" className="h-14" />
         </Link>
-        <div className="flex gap-2 text-slate-100">
+        <div className="z-10 flex gap-2 text-slate-100">
           {displayColourModeSwitcher && (
             <button
               className="rounded-lg border-2 border-solid border-whiteIce-500 bg-whiteIce-600 bg-opacity-50 p-2.5 text-slate-100"
@@ -54,7 +54,7 @@ function TheHeader() {
           )}
         </div>
       </div>
-      <nav className="flex flex-wrap items-center justify-start gap-x-6 gap-y-2 bg-whiteIce-800 px-10 py-2 text-sm dark:bg-whiteIce-900">
+      <nav className="z-10 flex flex-wrap items-center justify-start gap-x-6 gap-y-2 bg-whiteIce-800 px-10 py-2 text-sm dark:bg-whiteIce-900">
         {LinkList.map((l, i) => (
           <Link to={l.path} className="flex items-center gap-1.5" key={i}>
             <FeatherIcon icon={l.icon} size="18" />
