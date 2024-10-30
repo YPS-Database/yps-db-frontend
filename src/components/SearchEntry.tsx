@@ -18,9 +18,9 @@ function SearchEntry({ id, title, author, year, entryType, languages }: Props) {
         <span>{year}</span>
         <span>{author}</span>
       </div>
-      <div className="mt-1 flex items-baseline gap-8 text-sm">
-        <span>{entryType}</span>
-        <span className="flex-1">{languages.join(", ")}</span>
+      <div className="mt-1 flex items-end gap-8 text-sm">
+        <span className="max-w-[12rem] text-balance">{entryType}</span>
+        <span className="flex-1 text-balance">{languages.join(", ")}</span>
         <Link to={`/item/${id}`}>See details</Link>
       </div>
     </div>
