@@ -90,8 +90,8 @@ function Search() {
           />
           <span className="invisible">Pad for center \o/</span>
         </div>
-        <div className="mx-auto flex w-[66em] max-w-full items-start gap-3">
-          <div className="flex flex-1 flex-col gap-4 px-5">
+        <div className="mx-auto flex w-[66em] max-w-full items-start gap-4 px-6">
+          <div className="flex flex-1 flex-col gap-4">
             {data &&
               data.entries.map((entry) => (
                 <SearchEntry
@@ -136,6 +136,15 @@ function Search() {
               </select>
             </div>
           </div>
+        </div>
+        <div className="mx-auto mb-0.5 mt-3 flex w-[61em] max-w-full items-center justify-center px-8">
+          <Pagination
+            totalPages={data?.total_pages || 1}
+            currentPage={page}
+            onPageSelected={(newPage) => {
+              setPage(newPage);
+            }}
+          />
         </div>
       </div>
       <TheFooter />
