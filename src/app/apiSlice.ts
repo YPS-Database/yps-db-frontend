@@ -58,6 +58,17 @@ interface SearchEntriesResponse {
   entries: SearchEntry[];
 }
 
+interface EntryFile {
+  filename: string;
+  url: string;
+}
+
+interface AlternateEntry {
+  language: string;
+  title: string;
+  files: EntryFile[];
+}
+
 interface GetEntryResponse {
   entry: {
     id: string;
@@ -75,14 +86,9 @@ interface GetEntryResponse {
     start_date: string;
     end_date: string;
     language: string;
+    files: EntryFile[];
   };
-  alternate_languages: Map<
-    string,
-    {
-      language: string;
-      title: string;
-    }
-  >;
+  alternates: Map<string, AlternateEntry>;
 }
 
 interface OkUpdatedTimeResponse {
