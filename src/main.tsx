@@ -21,6 +21,7 @@ import Logout from "./routes/Logout.tsx";
 import AdminDashboard from "./routes/AdminDashboard.tsx";
 import EditDynamicPage from "./routes/EditDynamicPage.tsx";
 import UploadDatabase from "./routes/UploadDatabase.tsx";
+import EntryPage from "./routes/EntryPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/search",
     element: <Search />,
+  },
+  {
+    path: "/entry/:entryId",
+    element: <EntryPage />,
   },
   {
     path: "/about",

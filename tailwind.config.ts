@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         browseBy: "minmax(8rem, max-content) 1fr",
+        entryParams: "minmax(8rem, max-content) 1fr",
       },
       boxShadow: {
         card: "0 3px 7px 2px rgba(7, 30, 54, 0.22)",

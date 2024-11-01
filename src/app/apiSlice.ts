@@ -58,6 +58,33 @@ interface SearchEntriesResponse {
   entries: SearchEntry[];
 }
 
+interface GetEntryResponse {
+  entry: {
+    id: string;
+    title: string;
+    authors: string;
+    url: string;
+    orgs: string[];
+    org_doc_id: string;
+    org_type: string;
+    entry_type: string;
+    abstract: string;
+    youth_led: string;
+    youth_led_details: string;
+    keywords: string[];
+    start_date: string;
+    end_date: string;
+    language: string;
+  };
+  alternate_languages: Map<
+    string,
+    {
+      language: string;
+      title: string;
+    }
+  >;
+}
+
 interface OkUpdatedTimeResponse {
   ok: boolean;
   updated: string;
@@ -167,6 +194,9 @@ export const api = createApi({
         },
       }),
     }),
+    getEntry: build.query<GetEntryResponse, string>({
+      query: (id) => `entry/${id}`,
+    }),
   }),
 });
 
@@ -178,4 +208,5 @@ export const {
   useCheckUploadNewDbMutation,
   useGetBrowseByFieldsQuery,
   useSearchEntriesQuery,
+  useGetEntryQuery,
 } = api;
