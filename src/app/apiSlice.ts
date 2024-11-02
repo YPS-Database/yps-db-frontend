@@ -91,6 +91,13 @@ interface GetEntryResponse {
   alternates: Map<string, AlternateEntry>;
 }
 
+interface GetDbFilesResponse {
+  files: {
+    filename: string;
+    url: string;
+  }[];
+}
+
 interface OkUpdatedTimeResponse {
   ok: boolean;
   updated: string;
@@ -101,7 +108,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_YPSDB_API,
   }),
-  tagTypes: ["pages", "entries", "browsebyfields"],
+  tagTypes: ["pages", "entries", "dbs", "browsebyfields"],
   endpoints: (build) => ({
     // auth
     //
@@ -172,6 +179,11 @@ export const api = createApi({
           formData: true,
         };
       },
+      invalidatesTags: ["dbs", "browsebyfields", "entries"],
+    }),
+    getDbFiles: build.query<GetDbFilesResponse, void>({
+      query: () => `dbs`,
+      providesTags: ["dbs"],
     }),
     getBrowseByFields: build.query<BrowseByFieldsResponse, void>({
       query: () => `browseby`,
@@ -212,6 +224,7 @@ export const {
   useGetPageQuery,
   useApplyDbUpdateMutation,
   useCheckUploadNewDbMutation,
+  useGetDbFilesQuery,
   useGetBrowseByFieldsQuery,
   useSearchEntriesQuery,
   useGetEntryQuery,

@@ -22,6 +22,7 @@ import AdminDashboard from "./routes/AdminDashboard.tsx";
 import EditDynamicPage from "./routes/EditDynamicPage.tsx";
 import UploadDatabase from "./routes/UploadDatabase.tsx";
 import EntryPage from "./routes/EntryPage.tsx";
+import DataPage from "./routes/DataPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/data",
-    element: <DynamicPage title="Dataset" slug="data" />,
+    element: <DataPage />,
   },
   {
     path: "/submit",
