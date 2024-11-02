@@ -16,11 +16,11 @@ function Landing() {
       <TheHeader />
       <div id="content" className="my-8 flex flex-col items-start gap-3 px-10">
         <div className="hover-red w-full rounded-lg bg-boxBg px-8 py-6">
-          <h2 className="mb-2 text-xl">Catalogue search</h2>
+          <h2 className="mb-2 text-lg">Catalogue search</h2>
           <TheSearchBar defaultValue="" />
         </div>
         <div className="hover-yellow w-full rounded-lg bg-boxBg px-8 py-6">
-          <h2 className="text-xl">Browse by</h2>
+          <h2 className="text-lg">Browse by</h2>
           <div className="mt-3 flex flex-col gap-x-5 gap-y-3 md:grid md:grid-cols-browseBy">
             {browseBy &&
               Object.entries(browseBy.values).map((info, i) => {

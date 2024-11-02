@@ -103,6 +103,11 @@ function EntryPage() {
                     <Link to={`/entry/${e[0]}`}>{e[1].title}</Link>
                   </div>,
                 ])}
+                {Object.entries(data.alternates).length < 1 && (
+                  <div className="px-4 py-2.5">
+                    No other languages are available for this item
+                  </div>
+                )}
               </div>
             </div>
           </>

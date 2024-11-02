@@ -8,6 +8,8 @@ import Pagination from "../components/Pagination";
 import { useSearchEntriesQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import { useSearchParams } from "react-router-dom";
+import { improveFilterName } from "../app/utilities";
+import FeatherIcon from "feather-icons-react";
 
 function Search() {
   const [searchBarParams, setSearchBarParams] = useSearchParams();
@@ -47,12 +49,21 @@ function Search() {
     context: string,
     lang: string,
     sortBy: string,
+    filterKey: string,
+    filterValue: string,
   ) {
     setSearchBarParams((params) => {
       params.set("q", query);
       params.set("context", context);
       params.set("lang", lang);
       params.set("sort", sortBy);
+      if (filterKey || filterValue) {
+        params.set("filter_key", filterKey);
+        params.set("filter_value", filterValue);
+      } else {
+        params.delete("filter_key");
+        params.delete("filter_value");
+      }
       return params;
     });
   }
@@ -68,7 +79,14 @@ function Search() {
             defaultContext={searchContext}
             defaultLanguage={searchLanguage}
             onSearch={(query, context, lang) => {
-              updateSearchBar(query, context, lang, sortBy);
+              updateSearchBar(
+                query,
+                context,
+                lang,
+                sortBy,
+                filterKey,
+                filterValue,
+              );
               setTextValue(query);
               setSearchContext(context);
               setSearchLanguage(lang);
@@ -110,7 +128,7 @@ function Search() {
                 />
               ))}
           </div>
-          <div className="hover-grey flex flex-col gap-4 rounded-lg bg-boxBg py-3.5 pl-5 pr-4">
+          <div className="hover-grey flex flex-col gap-5 rounded-lg bg-boxBg py-3.5 pl-5 pr-4 text-sm">
             <div className="flex items-baseline gap-3">
               <label htmlFor="sortBy" className="whitespace-nowrap">
                 Sort by
@@ -126,6 +144,8 @@ function Search() {
                     searchContext,
                     searchLanguage,
                     e.currentTarget.value,
+                    filterKey,
+                    filterValue,
                   );
                 }}
               >
@@ -135,6 +155,31 @@ function Search() {
                 <option value="abc">Alphabetical</option>
               </select>
             </div>
+            {(filterKey || filterValue) && (
+              <div className="flex flex-col gap-1">
+                <div className="font-bold">{improveFilterName(filterKey)}</div>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    className="text-happyRed"
+                    onClick={() => {
+                      setFilterKey("");
+                      setFilterValue("");
+                      updateSearchBar(
+                        textValue,
+                        searchContext,
+                        searchLanguage,
+                        sortBy,
+                        "",
+                        "",
+                      );
+                    }}
+                  >
+                    <FeatherIcon icon="x" size={18} />
+                  </button>
+                  {filterValue} ({data?.total_entries})
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="mx-auto mb-0.5 mt-3 flex w-[61em] max-w-full items-center justify-center px-8">
