@@ -1,5 +1,10 @@
 export const LinkList = [
   {
+    path: "/search",
+    name: "Catalogue",
+    icon: "search",
+  },
+  {
     path: "/about",
     name: "About",
     icon: "info",

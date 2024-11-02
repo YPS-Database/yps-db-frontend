@@ -1,25 +1,41 @@
 import TheHeader from "../components/TheHeader";
 import TheFooter from "../components/TheFooter";
 import TheSearchBar from "../components/TheSearchBar";
-import { useGetBrowseByFieldsQuery } from "../app/apiSlice";
+import { useGetBrowseByFieldsQuery, useGetPageQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import React from "react";
 import { improveFilterName } from "../app/utilities";
 import { createSearchParams, Link } from "react-router-dom";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 function Landing() {
-  const { data: browseBy, isLoading } = useGetBrowseByFieldsQuery();
+  const { data: pageData, isLoading: isLoadingGetPage } =
+    useGetPageQuery("home");
+  const { data: browseBy, isLoading: isLoadingBrowseByFields } =
+    useGetBrowseByFieldsQuery();
 
   return (
     <>
-      {isLoading && <TheLoadingModal />}
+      {(isLoadingGetPage || isLoadingBrowseByFields) && <TheLoadingModal />}
       <TheHeader />
-      <div id="content" className="my-8 flex flex-col items-start gap-3 px-10">
-        <div className="hover-red w-full rounded-lg bg-boxBg px-8 py-6">
+      <div className="flex justify-center border-b border-b-happyRed bg-boxBg px-5 pb-7 pt-6">
+        <Markdown
+          className="markdown-page-content w-[60em]"
+          remarkPlugins={[remarkGfm]}
+        >
+          {pageData?.markdown}
+        </Markdown>
+      </div>
+      <div
+        id="content"
+        className="mb-8 mt-6 flex flex-col items-stretch gap-3 px-10"
+      >
+        <div className="hover-yellow w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="mb-2 text-lg">Catalogue search</h2>
           <TheSearchBar defaultValue="" />
         </div>
-        <div className="hover-yellow w-full rounded-lg bg-boxBg px-8 py-6">
+        <div className="hover-green w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="text-lg">Browse by</h2>
           <div className="mt-3 flex flex-col gap-x-5 gap-y-3 md:grid md:grid-cols-browseBy">
             {browseBy &&

@@ -88,9 +88,10 @@ function TheSearchBar({
       </div>
       <button
         type="submit"
-        className="rounded-lg border border-slate-400 px-3 py-1"
+        className="flex items-center gap-1.5 rounded-lg bg-[#781a21] py-1 pl-2.5 pr-3.5 text-white"
       >
-        Submit
+        <FeatherIcon icon="search" size="18" />
+        <span className="pb-0.5">Search</span>
       </button>
     </form>
   );
