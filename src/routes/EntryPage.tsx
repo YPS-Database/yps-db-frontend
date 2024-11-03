@@ -59,6 +59,23 @@ function EntryPage() {
                     .sort()
                     .join(", ")}
                 </div>
+                <div className="font-bold md:text-right">Regions:</div>
+                <div className="flex flex-wrap gap-x-3.5 gap-y-0.5">
+                  {data.entry.regions.map((value) => [
+                    <Link
+                      key={value}
+                      to={{
+                        pathname: "/search",
+                        search: createSearchParams([
+                          ["filter_key", "region"],
+                          ["filter_value", value],
+                        ]).toString(),
+                      }}
+                    >
+                      {value}
+                    </Link>,
+                  ])}
+                </div>
                 <div className="font-bold md:text-right">Keywords:</div>
                 <div className="flex flex-wrap gap-x-3.5 gap-y-0.5">
                   {data.entry.keywords.map((value) => [

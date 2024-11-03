@@ -33,6 +33,7 @@ interface UploadDbRequest {
 interface CheckUploadNewDbResponse {
   total_entries: number;
   new_entries: number;
+  nits: string[];
 }
 
 interface BrowseByFieldsResponse {
@@ -83,6 +84,7 @@ interface GetEntryResponse {
     youth_led: string;
     youth_led_details: string;
     keywords: string[];
+    regions: string[];
     start_date: string;
     end_date: string;
     language: string;

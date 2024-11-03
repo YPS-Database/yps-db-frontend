@@ -87,12 +87,25 @@ function UploadDatabase() {
             )}
           </Dropzone>
           {checkDbData && (
-            <div className="mt-2 text-center text-green-600">
+            <div className="mt-2.5 text-center text-green-600">
               <p className="font-semibold">New database:</p>
               <p>
                 {checkDbData.total_entries} total entries in new file, with{" "}
                 {checkDbData.new_entries} brand new entries.
               </p>
+              {checkDbData.nits && (
+                <>
+                  <p className="mt-2 font-semibold">
+                    Issues with the database file, which you may want to
+                    correct:
+                  </p>
+                  <div className="max-h-[10rem] overflow-y-auto">
+                    {checkDbData.nits.map((nit, i) => (
+                      <p key={i}>{nit}</p>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           )}
           {applyDbData && (

@@ -15,6 +15,20 @@ function Landing() {
   const { data: browseBy, isLoading: isLoadingBrowseByFields } =
     useGetBrowseByFieldsQuery();
 
+  // put region down the bottom of the 'browse by' list, because it looks better
+  const browseByFixed: [string, string[]][] = [];
+  if (browseBy) {
+    for (const e of Object.entries(browseBy.values)) {
+      if (e[0] === "region") {
+        continue;
+      }
+      browseByFixed.push(e);
+    }
+    if ("region" in browseBy.values) {
+      browseByFixed.push(["region", browseBy.values.region as string[]]);
+    }
+  }
+
   return (
     <>
       {(isLoadingGetPage || isLoadingBrowseByFields) && <TheLoadingModal />}
@@ -38,30 +52,29 @@ function Landing() {
         <div className="hover-green w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="text-lg">Browse by</h2>
           <div className="mt-3 flex flex-col gap-x-5 gap-y-3 md:grid md:grid-cols-browseBy">
-            {browseBy &&
-              Object.entries(browseBy.values).map((info, i) => {
-                return (
-                  <React.Fragment key={i}>
-                    <div>{improveFilterName(info[0])}</div>
-                    <div className="flex flex-wrap gap-x-4">
-                      {info[1].map((value: string) => [
-                        <Link
-                          key={value}
-                          to={{
-                            pathname: "/search",
-                            search: createSearchParams([
-                              ["filter_key", info[0]],
-                              ["filter_value", value],
-                            ]).toString(),
-                          }}
-                        >
-                          {value}
-                        </Link>,
-                      ])}
-                    </div>
-                  </React.Fragment>
-                );
-              })}
+            {browseByFixed.map((info, i) => {
+              return (
+                <React.Fragment key={i}>
+                  <div>{improveFilterName(info[0])}</div>
+                  <div className="flex flex-wrap gap-x-4">
+                    {info[1].map((value: string) => [
+                      <Link
+                        key={value}
+                        to={{
+                          pathname: "/search",
+                          search: createSearchParams([
+                            ["filter_key", info[0]],
+                            ["filter_value", value],
+                          ]).toString(),
+                        }}
+                      >
+                        {value}
+                      </Link>,
+                    ])}
+                  </div>
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       </div>
