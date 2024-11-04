@@ -28,12 +28,17 @@ interface GetPageResponse {
 interface UploadDbRequest {
   token: string;
   db: File;
+  overwrite?: boolean;
 }
 
 interface CheckUploadNewDbResponse {
   total_entries: number;
+  unmodified_entries: number;
+  modified_entries: number;
   new_entries: number;
+  deleted_entries: number;
   nits: string[];
+  file_already_exists: boolean;
 }
 
 interface BrowseByFieldsResponse {
@@ -93,6 +98,11 @@ interface GetEntryResponse {
   alternates: Map<string, AlternateEntry>;
 }
 
+interface GetLatestDbResponse {
+  number_of_entries: number;
+  number_of_languages: number;
+}
+
 interface GetDbFilesResponse {
   files: {
     filename: string;
@@ -105,12 +115,16 @@ interface OkUpdatedTimeResponse {
   updated: string;
 }
 
+interface OkResponse {
+  ok: boolean;
+}
+
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_YPSDB_API,
   }),
-  tagTypes: ["pages", "entries", "dbs", "browsebyfields"],
+  tagTypes: ["pages", "entries", "current-db", "dbs", "browsebyfields"],
   endpoints: (build) => ({
     // auth
     //
@@ -164,14 +178,15 @@ export const api = createApi({
         },
       },
     ),
-    applyDbUpdate: build.mutation<CheckUploadNewDbResponse, UploadDbRequest>({
-      query: ({ token, db }) => {
+    applyDbUpdate: build.mutation<OkResponse, UploadDbRequest>({
+      query: ({ token, db, overwrite }) => {
         const body = new FormData();
         body.append("db", db);
         return {
           url: `db`,
           params: {
             apply: true,
+            overwrite: overwrite,
           },
           method: "PUT",
           headers: {
@@ -181,7 +196,11 @@ export const api = createApi({
           formData: true,
         };
       },
-      invalidatesTags: ["dbs", "browsebyfields", "entries"],
+      invalidatesTags: ["current-db", "dbs", "browsebyfields", "entries"],
+    }),
+    getLatestDb: build.query<GetLatestDbResponse, void>({
+      query: () => `db`,
+      providesTags: ["current-db"],
     }),
     getDbFiles: build.query<GetDbFilesResponse, void>({
       query: () => `dbs`,
@@ -226,6 +245,7 @@ export const {
   useGetPageQuery,
   useApplyDbUpdateMutation,
   useCheckUploadNewDbMutation,
+  useGetLatestDbQuery,
   useGetDbFilesQuery,
   useGetBrowseByFieldsQuery,
   useSearchEntriesQuery,

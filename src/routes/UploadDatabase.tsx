@@ -4,6 +4,7 @@ import Dropzone from "react-dropzone";
 import {
   useApplyDbUpdateMutation,
   useCheckUploadNewDbMutation,
+  useGetLatestDbQuery,
 } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import { useAppSelector } from "../app/store";
@@ -11,6 +12,11 @@ import { useEffect, useState } from "react";
 
 function UploadDatabase() {
   const user = useAppSelector((state) => state.userProfile);
+  const [dbFiles, setDbFiles] = useState<File[]>([]);
+  const [overwrite, setOverwrite] = useState(false);
+
+  const { data: latestDbData, isLoading: isLoadingLatestDb } =
+    useGetLatestDbQuery();
   const [
     checkDbUpdate,
     { data: checkDbData, isLoading: isLoadingCheck, error: checkError },
@@ -33,6 +39,12 @@ function UploadDatabase() {
       : JSON.stringify("data" in applyError ? applyError.data : {})
     : "";
 
+  const canUpload =
+    dbFiles.length == 1 &&
+    checkDbData &&
+    !checkError &&
+    (!checkDbData.file_already_exists || overwrite);
+
   // ensure applyChanges is false if we have an error
   useEffect(() => {
     if (applyChanges && (checkErrorMsg != "" || applyErrorMsg != "")) {
@@ -42,33 +54,50 @@ function UploadDatabase() {
 
   return (
     <>
-      {(isLoadingCheck || isLoadingApply) && <TheLoadingModal />}
+      {(isLoadingLatestDb || isLoadingCheck || isLoadingApply) && (
+        <TheLoadingModal />
+      )}
       <TheHeader />
-      <div id="content" className="my-8 flex flex-col items-start gap-3 px-10">
-        <div className="hover-red flex w-full flex-col rounded-lg bg-boxBg px-8 py-6">
-          <h2 className="mb-2 text-xl">Upload new database</h2>
+      <div className="flex justify-center border-b border-b-happyRed bg-boxBg px-5 pb-7 pt-6">
+        <div className="flex flex-col gap-1">
           <p>
             Hi there, this is where you can upload a new database file. Rows in
             the database file with an empty title are skipped.
           </p>
-          <p className="mt-2">
+          <p>
             If you have any trouble, please reach out to{" "}
             <a href="mailto:daniel@danieloaks.net">daniel@danieloaks.net</a> for
             assistance! Please attach the xlsx file you're trying to upload.
           </p>
-          <hr className="my-4 rounded border-2 border-rustyRed-100" />
+        </div>
+      </div>
+      <div
+        id="content"
+        className="mb-8 mt-4 flex flex-col items-start gap-3 px-10"
+      >
+        <div className="hover-yellow flex w-full flex-col rounded-lg bg-boxBg px-8 pb-6 pt-5">
+          <h2 className="mb-1 text-xl">Current database</h2>
+          {latestDbData && (
+            <div className="flex flex-col gap-0.5">
+              <span>Number of entries: {latestDbData.number_of_entries}</span>
+              <span>
+                Number of languages: {latestDbData.number_of_languages}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="hover-green flex w-full flex-col rounded-lg bg-boxBg px-8 pb-7 pt-5">
+          <h2 className="mb-3 text-xl">New database</h2>
           <Dropzone
             maxFiles={1}
             onDrop={(acceptedFiles) => {
-              if (acceptedFiles.length < 1) {
-                console.log("We didn't get any files");
+              if (acceptedFiles.length != 1) {
+                console.log("Incorrect number of files");
                 return;
               }
-              if (applyChanges && checkErrorMsg === "") {
-                applyDbUpdate({ token: user.token, db: acceptedFiles[0] });
-              } else {
-                checkDbUpdate({ token: user.token, db: acceptedFiles[0] });
-              }
+
+              setDbFiles(acceptedFiles);
             }}
           >
             {({ getRootProps, getInputProps }) => (
@@ -86,63 +115,106 @@ function UploadDatabase() {
               </div>
             )}
           </Dropzone>
+          {dbFiles.length == 1 && (
+            <div className="mt-2.5 flex justify-center gap-3">
+              {dbFiles[0].name}
+            </div>
+          )}
+          <div className="mt-3 flex justify-center gap-3">
+            <button
+              className="rounded bg-blue-900 px-5 py-3 text-white transition-colors hover:bg-blue-950"
+              onClick={() => {
+                if (dbFiles.length === 1) {
+                  checkDbUpdate({ token: user.token, db: dbFiles[0] });
+                }
+              }}
+            >
+              Check database
+            </button>
+            <button
+              className={`rounded px-5 py-3 text-white transition-colors ${canUpload ? "bg-blue-900 hover:bg-blue-950" : "bg-slate-900 opacity-60"}`}
+              disabled={!canUpload}
+              onClick={() => {
+                if (dbFiles.length === 1) {
+                  applyDbUpdate({
+                    token: user.token,
+                    db: dbFiles[0],
+                    overwrite,
+                  });
+                }
+              }}
+            >
+              Upload database
+            </button>
+          </div>
+          {((checkDbData && checkDbData.file_already_exists) || overwrite) && (
+            <div className="mt-2 flex items-center justify-center gap-1.5">
+              <input
+                id="overwriteExistingDb"
+                type="checkbox"
+                checked={overwrite}
+                onChange={(e) => setOverwrite(e.currentTarget.checked)}
+              />
+              <label htmlFor="overwriteExistingDb">Overwrite</label>
+            </div>
+          )}
+        </div>
+
+        <div className="hover-blue flex w-full flex-col rounded-lg bg-boxBg px-8 pb-7 pt-5">
+          <h2 className="text-xl">Check details</h2>
           {checkDbData && (
-            <div className="mt-2.5 text-center text-green-600">
-              <p className="font-semibold">New database:</p>
-              <p>
-                {checkDbData.total_entries} total entries in new file, with{" "}
-                {checkDbData.new_entries} brand new entries.
-              </p>
+            <>
+              {checkDbData.file_already_exists && (
+                <p className="mb-1 font-semibold">
+                  This database file already exists. Please rename the file or
+                  ensure the 'Overwrite' checkbox is enabled.
+                </p>
+              )}
+              <p>{checkDbData.total_entries} total entries.</p>
+              <p>{checkDbData.unmodified_entries} unmodified entries.</p>
+              <p>{checkDbData.modified_entries} modified entries.</p>
+              <p>{checkDbData.new_entries} new entries.</p>
+              <p>{checkDbData.deleted_entries} deleted entries.</p>
               {checkDbData.nits && (
                 <>
-                  <p className="mt-2 font-semibold">
-                    Issues with the database file, which you may want to
-                    correct:
-                  </p>
-                  <div className="max-h-[10rem] overflow-y-auto">
+                  <p className="mt-2 font-semibold">Possible errors:</p>
+                  <div className="max-h-[10rem] overflow-y-auto rounded border border-slate-800 px-3 py-1.5">
                     {checkDbData.nits.map((nit, i) => (
                       <p key={i}>{nit}</p>
                     ))}
                   </div>
                 </>
               )}
-            </div>
-          )}
-          {applyDbData && (
-            <div className="mt-2 text-center text-green-600">
-              <p className="font-semibold">New database update applied:</p>
-              <p>{JSON.stringify(applyDbData)}</p>
-            </div>
-          )}
-          {(checkError || applyError) && (
-            <div className="mt-2 text-center text-red-600">
-              <p>Could not upload new database.</p>
-              {checkErrorMsg && <p>{checkErrorMsg}</p>}
-              {applyErrorMsg && <p>{applyErrorMsg}</p>}
-            </div>
-          )}
-          {(checkDbData || applyChanges) && (
-            <>
-              <hr className="my-4 rounded border-2 border-rustyRed-100" />
-              <div className="text-center">
-                <p>
-                  To apply the changes, click this checkbox and then re-upload
-                  the exact same file:
-                </p>
-                <p>
-                  <label htmlFor="upload-new-database-file-check">
-                    I want to apply the next uploaded file:
-                  </label>
-                  <input
-                    type="checkbox"
-                    className="ml-2"
-                    id="upload-new-database-file-check"
-                    checked={applyChanges}
-                    onChange={(e) => setApplyChanges(e.currentTarget.checked)}
-                  />
-                </p>
-              </div>
             </>
+          )}
+          {checkError && (
+            <div className="mt-2 flex justify-center">
+              <div>
+                <p className="font-semibold">
+                  Error while checking new database:
+                </p>
+                <p className="text-red-600">{checkErrorMsg}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="hover-purple flex w-full flex-col rounded-lg bg-boxBg px-8 pb-7 pt-5">
+          <h2 className="mb-3 text-xl">Upload details</h2>
+          {applyDbData && applyDbData.ok && (
+            <p className="font-semibold">
+              New database update successfully applied
+            </p>
+          )}
+          {applyError && (
+            <div className="mt-2 flex justify-center">
+              <div>
+                <p className="font-semibold">
+                  Error while uploading new database:
+                </p>
+                <p className="text-red-600">{applyErrorMsg}</p>
+              </div>
+            </div>
           )}
         </div>
       </div>
