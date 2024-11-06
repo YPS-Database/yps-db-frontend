@@ -160,63 +160,67 @@ function UploadDatabase() {
           )}
         </div>
 
-        <div className="hover-blue flex w-full flex-col rounded-lg bg-boxBg px-8 pb-7 pt-5">
-          <h2 className="text-xl">Check details</h2>
-          {checkDbData && (
-            <>
-              {checkDbData.file_already_exists && (
-                <p className="mb-1 font-semibold">
-                  This database file already exists. Please rename the file or
-                  ensure the 'Overwrite' checkbox is enabled.
-                </p>
-              )}
-              <p>{checkDbData.total_entries} total entries.</p>
-              <p>{checkDbData.unmodified_entries} unmodified entries.</p>
-              <p>{checkDbData.modified_entries} modified entries.</p>
-              <p>{checkDbData.new_entries} new entries.</p>
-              <p>{checkDbData.deleted_entries} deleted entries.</p>
-              {checkDbData.nits && (
-                <>
-                  <p className="mt-2 font-semibold">Possible errors:</p>
-                  <div className="max-h-[10rem] overflow-y-auto rounded border border-slate-800 px-3 py-1.5">
-                    {checkDbData.nits.map((nit, i) => (
-                      <p key={i}>{nit}</p>
-                    ))}
-                  </div>
-                </>
-              )}
-            </>
-          )}
-          {checkError && (
-            <div className="mt-2 flex justify-center">
-              <div>
-                <p className="font-semibold">
-                  Error while checking new database:
-                </p>
-                <p className="text-red-600">{checkErrorMsg}</p>
+        {(checkDbData || checkError) && (
+          <div className="hover-blue flex w-full flex-col rounded-lg bg-boxBg px-8 pb-7 pt-5">
+            <h2 className="text-xl">Check details</h2>
+            {checkDbData && (
+              <>
+                {checkDbData.file_already_exists && (
+                  <p className="mb-1 font-semibold">
+                    This database file already exists. Please rename the file or
+                    ensure the 'Overwrite' checkbox is enabled.
+                  </p>
+                )}
+                <p>{checkDbData.total_entries} total entries.</p>
+                <p>{checkDbData.unmodified_entries} unmodified entries.</p>
+                <p>{checkDbData.modified_entries} modified entries.</p>
+                <p>{checkDbData.new_entries} new entries.</p>
+                <p>{checkDbData.deleted_entries} deleted entries.</p>
+                {checkDbData.nits && (
+                  <>
+                    <p className="mt-2 font-semibold">Possible errors:</p>
+                    <div className="max-h-[10rem] overflow-y-auto rounded border border-slate-800 px-3 py-1.5">
+                      {checkDbData.nits.map((nit, i) => (
+                        <p key={i}>{nit}</p>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+            {checkError && (
+              <div className="mt-2 flex justify-center">
+                <div>
+                  <p className="font-semibold">
+                    Error while checking new database:
+                  </p>
+                  <p className="text-red-600">{checkErrorMsg}</p>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
-        <div className="hover-purple flex w-full flex-col rounded-lg bg-boxBg px-8 pb-7 pt-5">
-          <h2 className="mb-3 text-xl">Upload details</h2>
-          {applyDbData && applyDbData.ok && (
-            <p className="font-semibold">
-              New database update successfully applied
-            </p>
-          )}
-          {applyError && (
-            <div className="mt-2 flex justify-center">
-              <div>
-                <p className="font-semibold">
-                  Error while uploading new database:
-                </p>
-                <p className="text-red-600">{applyErrorMsg}</p>
+        {(applyDbData || applyError) && (
+          <div className="hover-purple flex w-full flex-col rounded-lg bg-boxBg px-8 pb-7 pt-5">
+            <h2 className="mb-3 text-xl">Upload details</h2>
+            {applyDbData && applyDbData.ok && (
+              <p className="font-semibold">
+                New database update successfully applied
+              </p>
+            )}
+            {applyError && (
+              <div className="mt-2 flex justify-center">
+                <div>
+                  <p className="font-semibold">
+                    Error while uploading new database:
+                  </p>
+                  <p className="text-red-600">{applyErrorMsg}</p>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
       <TheFooter />
     </>
