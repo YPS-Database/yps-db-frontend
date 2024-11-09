@@ -8,6 +8,9 @@ import { improveFilterName } from "../app/utilities";
 import { createSearchParams, Link } from "react-router-dom";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
+import deepmerge from "deepmerge";
 
 function Landing() {
   const { data: pageData, isLoading: isLoadingGetPage } =
@@ -37,6 +40,15 @@ function Landing() {
         <Markdown
           className="markdown-page-content w-[60em]"
           remarkPlugins={[remarkGfm]}
+          rehypePlugins={[
+            rehypeRaw,
+            [
+              rehypeSanitize,
+              deepmerge(defaultSchema, {
+                attributes: { img: ["className", "style"] },
+              }),
+            ],
+          ]}
         >
           {pageData?.markdown}
         </Markdown>

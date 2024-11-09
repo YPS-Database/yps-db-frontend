@@ -5,6 +5,9 @@ import { useGetPageQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
+import deepmerge from "deepmerge";
 
 interface Props {
   title: string;
@@ -25,6 +28,15 @@ function DynamicPage({ title, slug }: Props) {
             <Markdown
               className="markdown-page-content"
               remarkPlugins={[remarkGfm]}
+              rehypePlugins={[
+                rehypeRaw,
+                [
+                  rehypeSanitize,
+                  deepmerge(defaultSchema, {
+                    attributes: { img: ["className", "style"] },
+                  }),
+                ],
+              ]}
             >
               {data?.markdown}
             </Markdown>

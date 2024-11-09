@@ -18,7 +18,7 @@ function TheFooter() {
       <div className="z-10 flex flex-col gap-2 text-balance text-center text-sm">
         <p>
           The YPS Database was created and is maintained on the unceded lands of
-          the Turrbal, Jagera, and Quandamooka Peoples. I pay my respects to
+          the Turrbal, Jagera, and Quandamooka Peoples. We pay our respects to
           their Elders, past and present and thank them for their ongoing
           custodianship of Country. Sovereignty was never ceded; this always
           was, and always will be, Aboriginal land.

@@ -6,6 +6,9 @@ import { useEditPageMutation, useGetPageQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../app/store";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
+import deepmerge from "deepmerge";
 
 interface Props {
   title: string;
@@ -57,6 +60,15 @@ function EditDynamicPage({ title, slug }: Props) {
               <Markdown
                 className="markdown-page-content"
                 remarkPlugins={[remarkGfm]}
+                rehypePlugins={[
+                  rehypeRaw,
+                  [
+                    rehypeSanitize,
+                    deepmerge(defaultSchema, {
+                      attributes: { img: ["className", "style"] },
+                    }),
+                  ],
+                ]}
               >
                 {content}
               </Markdown>
