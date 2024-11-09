@@ -96,6 +96,7 @@ interface GetEntryResponse {
     files: EntryFile[];
   };
   alternates: Map<string, AlternateEntry>;
+  related: Map<string, string>;
 }
 
 interface GetLatestDbResponse {

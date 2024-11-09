@@ -19,6 +19,7 @@ function EntryPage() {
   if (!entryId) {
     return <NotFound />;
   }
+
   return (
     <>
       {isLoading && <TheLoadingModal />}
@@ -123,6 +124,25 @@ function EntryPage() {
                 {Object.entries(data.alternates).length < 1 && (
                   <div className="px-4 py-2.5">
                     No other languages are available for this item
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="hover-blue w-[58rem] max-w-full rounded-lg bg-boxBg px-8 pb-8 pt-6">
+              <h2 className="mb-2 text-lg">Related entries</h2>
+              <div className="mt-3.5 overflow-hidden rounded border border-happyBlue border-opacity-90 text-sm">
+                {Object.entries(data.related).map((e, i) => [
+                  <div
+                    key={e[0]}
+                    className={`flex gap-4 border-opacity-90 px-4 py-2.5 ${i > 0 ? "border-t border-t-happyBlue" : ""}`}
+                  >
+                    <div className="font-bold">#{e[0]}</div>
+                    <Link to={`/entry/${e[0]}`}>{e[1]}</Link>
+                  </div>,
+                ])}
+                {Object.entries(data.related).length < 1 && (
+                  <div className="px-4 py-2.5">
+                    No related entries are available for this item
                   </div>
                 )}
               </div>
