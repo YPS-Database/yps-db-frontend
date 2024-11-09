@@ -158,7 +158,7 @@ function Search() {
             {(filterKey || filterValue) && (
               <div className="flex flex-col gap-1">
                 <div className="font-bold">{improveFilterName(filterKey)}</div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex max-w-[18em] items-center gap-1.5">
                   <button
                     className="text-happyRed"
                     onClick={() => {
