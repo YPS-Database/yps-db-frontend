@@ -20,6 +20,11 @@ function AdminDashboard() {
             <h3 className="text-lg">Database</h3>
             <Link to="/admin/upload-db">Upload new database version</Link>
             <Link to="/admin/manage-dbs">Manage database versions</Link>
+            {user.level === "superuser" && (
+              <Link to="/admin/import-file-list">
+                Import S3 file list (Superuser)
+              </Link>
+            )}
           </div>
 
           <div className="my-4 flex flex-col">

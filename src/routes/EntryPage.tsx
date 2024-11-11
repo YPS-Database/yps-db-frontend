@@ -7,6 +7,12 @@ import { createSearchParams, Link, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 import { languageCodeToName } from "../app/utilities";
 
+type LanguageEntryFile = {
+  language: string;
+  filename: string;
+  url: string;
+};
+
 type Params = {
   entryId: string;
 };
@@ -15,6 +21,28 @@ function EntryPage() {
   const { entryId } = useParams<Params>();
 
   const { data, isLoading } = useGetEntryQuery(entryId || "");
+
+  let allFiles: LanguageEntryFile[] = [];
+  if (data) {
+    allFiles = data.files.map((e) => {
+      return {
+        language: data.entry.language,
+        filename: e.filename,
+        url: e.url,
+      };
+    });
+    for (const le of Object.entries(data.alternates)) {
+      allFiles = allFiles.concat(
+        le[1].files.map((e) => {
+          return {
+            language: le[1].language,
+            filename: e.filename,
+            url: e.url,
+          };
+        }),
+      );
+    }
+  }
 
   if (!entryId) {
     return <NotFound />;
@@ -106,6 +134,24 @@ function EntryPage() {
             </div>
             <div className="hover-yellow w-[58rem] max-w-full rounded-lg bg-boxBg px-8 pb-8 pt-6">
               <h2 className="mb-2 text-lg">Files and documents</h2>
+              <div className="mt-3.5 overflow-hidden rounded border border-happyYellow border-opacity-90 text-sm">
+                {allFiles.map((e, i) => [
+                  <div
+                    key={i}
+                    className={`flex gap-4 border-opacity-90 px-4 py-2.5 ${i > 0 ? "border-t border-t-happyYellow" : ""}`}
+                  >
+                    <div className="font-bold">
+                      {languageCodeToName(e.language)}
+                    </div>
+                    <a href={e.url}>{e.filename}</a>
+                  </div>,
+                ])}
+                {allFiles.length < 1 && (
+                  <div className="px-4 py-2.5">
+                    No files are available for this item
+                  </div>
+                )}
+              </div>
             </div>
             <div className="hover-green w-[58rem] max-w-full rounded-lg bg-boxBg px-8 pb-8 pt-6">
               <h2 className="mb-2 text-lg">Alternate languages</h2>

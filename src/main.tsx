@@ -23,6 +23,7 @@ import EditDynamicPage from "./routes/EditDynamicPage.tsx";
 import UploadDatabase from "./routes/UploadDatabase.tsx";
 import EntryPage from "./routes/EntryPage.tsx";
 import DataPage from "./routes/DataPage.tsx";
+import ImportFileList from "./routes/ImportFileList.tsx";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/upload-db",
         element: <UploadDatabase />,
+      },
+      {
+        path: "/admin/import-file-list",
+        element: <ImportFileList />,
       },
       {
         path: "/admin/edit-page/home",

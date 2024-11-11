@@ -41,6 +41,11 @@ interface CheckUploadNewDbResponse {
   file_already_exists: boolean;
 }
 
+interface UploadEntryFileListRequest {
+  token: string;
+  entries: object;
+}
+
 interface BrowseByFieldsResponse {
   values: Map<string, string[]>;
 }
@@ -93,8 +98,8 @@ interface GetEntryResponse {
     start_date: string;
     end_date: string;
     language: string;
-    files: EntryFile[];
   };
+  files: EntryFile[];
   alternates: Map<string, AlternateEntry>;
   related: Map<string, string>;
 }
@@ -162,6 +167,23 @@ export const api = createApi({
 
     // entries
     //
+    uploadEntryFilesList: build.mutation<
+      OkResponse,
+      UploadEntryFileListRequest
+    >({
+      query: ({ token, entries }) => {
+        return {
+          url: `import-files`,
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: {
+            entries,
+          },
+        };
+      },
+    }),
     checkUploadNewDb: build.mutation<CheckUploadNewDbResponse, UploadDbRequest>(
       {
         query: ({ token, db }) => {
@@ -245,6 +267,7 @@ export const {
   useEditPageMutation,
   useGetPageQuery,
   useApplyDbUpdateMutation,
+  useUploadEntryFilesListMutation,
   useCheckUploadNewDbMutation,
   useGetLatestDbQuery,
   useGetDbFilesQuery,
