@@ -24,7 +24,7 @@ function ManageDatabases() {
       {(isLoadingDbFiles || isLoadingDelete) && <TheLoadingModal />}
       <TheHeader />
       <div className="flex justify-center border-b border-b-happyRed bg-boxBg px-5 pb-7 pt-6">
-        <div className="flex flex-col gap-1">
+        <div className="flex max-w-[60em] flex-col gap-1">
           <p>
             Hi there, this is where you can remove unused database files. Note,
             this only removes the link from the 'dataset' page, but the file
