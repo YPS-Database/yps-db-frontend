@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { SearchEntry } from "../types";
+import { SearchEntry, SearchFilter } from "../types";
 
 interface LoginRequest {
   password: string;
@@ -67,6 +67,7 @@ interface SearchEntriesResponse {
   start_entry: number;
   end_entry: number;
   entries: SearchEntry[];
+  filters: SearchFilter[];
 }
 
 interface EntryFile {

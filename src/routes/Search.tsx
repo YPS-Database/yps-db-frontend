@@ -172,6 +172,30 @@ function Search() {
                 <option value="abc">Alphabetical</option>
               </select>
             </div>
+            {data &&
+              filterKey === "" &&
+              filterValue === "" &&
+              data.filters.map((filter) => (
+                <div className="flex flex-col gap-1" key={filter.key}>
+                  <div className="font-bold">
+                    {improveFilterName(filter.key)}
+                  </div>
+                  {filter.values.map((fv) => (
+                    <a
+                      className="flex max-w-[18em] cursor-pointer items-center gap-1.5"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setFilterKey(filter.key);
+                        setFilterValue(fv.value);
+                        setPage(1);
+                      }}
+                    >
+                      {fv.value} ({fv.count})
+                    </a>
+                  ))}
+                </div>
+              ))}
             {(filterKey || filterValue) && (
               <div className="flex flex-col gap-1">
                 <div className="font-bold">{improveFilterName(filterKey)}</div>

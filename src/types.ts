@@ -18,3 +18,13 @@ export type SearchEntry = {
   available_languages: string[];
   language: string;
 };
+
+export type SearchFilterValue = {
+  value: string;
+  count: number;
+};
+
+export type SearchFilter = {
+  key: string;
+  values: SearchFilterValue[];
+};
