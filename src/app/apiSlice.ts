@@ -74,7 +74,7 @@ interface EntryFile {
   url: string;
 }
 
-interface AlternateEntry {
+export interface AlternateEntry {
   language: string;
   title: string;
   files: EntryFile[];
@@ -116,6 +116,18 @@ interface GetDbFilesResponse {
   }[];
 }
 
+interface UploadEntryFileRequest {
+  token: string;
+  id: string;
+  file: File;
+}
+
+interface DeleteEntryFileRequest {
+  token: string;
+  id: string;
+  filename: string;
+}
+
 interface OkUpdatedTimeResponse {
   ok: boolean;
   updated: string;
@@ -130,7 +142,14 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_YPSDB_API,
   }),
-  tagTypes: ["pages", "entries", "current-db", "dbs", "browsebyfields"],
+  tagTypes: [
+    "entry",
+    "pages",
+    "entries",
+    "current-db",
+    "dbs",
+    "browsebyfields",
+  ],
   endpoints: (build) => ({
     // auth
     //
@@ -258,6 +277,44 @@ export const api = createApi({
     }),
     getEntry: build.query<GetEntryResponse, string>({
       query: (id) => `entry/${id}`,
+      providesTags: (result) =>
+        result
+          ? [
+              { type: "entry", id: result.entry.id },
+              { type: "entry", id: "LIST" },
+            ]
+          : [{ type: "entry", id: "LIST" }],
+    }),
+    uploadEntryFile: build.mutation<OkResponse, UploadEntryFileRequest>({
+      query: ({ token, id, file }) => {
+        const body = new FormData();
+        body.append("upload", file);
+        return {
+          url: `entry/${id}/file`,
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body,
+          formData: true,
+        };
+      },
+      invalidatesTags: [{ type: "entry", id: "LIST" }],
+    }),
+    deleteEntryFile: build.mutation<OkResponse, DeleteEntryFileRequest>({
+      query: ({ token, id, filename }) => {
+        return {
+          url: `entry/${id}/file`,
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: {
+            file: filename,
+          },
+        };
+      },
+      invalidatesTags: [{ type: "entry", id: "LIST" }],
     }),
   }),
 });
@@ -274,4 +331,6 @@ export const {
   useGetBrowseByFieldsQuery,
   useSearchEntriesQuery,
   useGetEntryQuery,
+  useUploadEntryFileMutation,
+  useDeleteEntryFileMutation,
 } = api;

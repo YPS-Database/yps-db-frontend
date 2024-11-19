@@ -1,13 +1,23 @@
 import TheHeader from "../components/TheHeader";
 import TheFooter from "../components/TheFooter";
 
-import { useGetEntryQuery } from "../app/apiSlice";
+import {
+  AlternateEntry,
+  useDeleteEntryFileMutation,
+  useGetEntryQuery,
+  useUploadEntryFileMutation,
+} from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import { createSearchParams, Link, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 import { languageCodeToName } from "../app/utilities";
+import { useAppSelector } from "../app/store";
+import Dropzone from "react-dropzone";
+import { useEffect, useState } from "react";
+import FeatherIcon from "feather-icons-react";
 
 type LanguageEntryFile = {
+  entry_id: string;
   language: string;
   filename: string;
   url: string;
@@ -18,14 +28,57 @@ type Params = {
 };
 
 function EntryPage() {
+  const user = useAppSelector((state) => state.userProfile);
+
+  const [uploadFiles, setUploadFiles] = useState<File[]>([]);
+
+  const [uploadLanguage, setUploadLanguage] = useState("");
+
   const { entryId } = useParams<Params>();
 
+  const [
+    uploadEntryFile,
+    {
+      // data: uploadEntryFileData,
+      isLoading: isLoadingUpload,
+      error: uploadError,
+    },
+  ] = useUploadEntryFileMutation();
+
+  const uploadErrorMsg = uploadError
+    ? "error" in uploadError
+      ? uploadError.error
+      : JSON.stringify("data" in uploadError ? uploadError.data : {})
+    : "";
+
+  const [
+    deleteEntryFile,
+    {
+      // data: uploadEntryFileData,
+      isLoading: isLoadingDelete,
+      error: deleteError,
+    },
+  ] = useDeleteEntryFileMutation();
+
+  const deleteErrorMsg = deleteError
+    ? "error" in deleteError
+      ? deleteError.error
+      : JSON.stringify("data" in deleteError ? deleteError.data : {})
+    : "";
+
   const { data, isLoading } = useGetEntryQuery(entryId || "");
+
+  useEffect(() => {
+    if (data && uploadLanguage === "") {
+      setUploadLanguage(data.entry.id);
+    }
+  }, [data, uploadLanguage]);
 
   let allFiles: LanguageEntryFile[] = [];
   if (data) {
     allFiles = data.files.map((e) => {
       return {
+        entry_id: data.entry.id,
         language: data.entry.language,
         filename: e.filename,
         url: e.url,
@@ -33,8 +86,9 @@ function EntryPage() {
     });
     for (const le of Object.entries(data.alternates)) {
       allFiles = allFiles.concat(
-        le[1].files.map((e) => {
+        (le[1] as AlternateEntry).files.map((e) => {
           return {
+            entry_id: le[0],
             language: le[1].language,
             filename: e.filename,
             url: e.url,
@@ -50,14 +104,14 @@ function EntryPage() {
 
   return (
     <>
-      {isLoading && <TheLoadingModal />}
+      {(isLoading || isLoadingUpload || isLoadingDelete) && <TheLoadingModal />}
       <TheHeader />
       <div id="content" className="my-8 flex flex-col items-center gap-3 px-10">
         {data && (
           <>
             <div className="hover-red w-[58rem] max-w-full rounded-lg bg-boxBg px-8 py-6">
               <h2 className="mb-2 text-lg">{data.entry.title}</h2>
-              <div className="md:grid-cols-entryParams mt-3 flex flex-col gap-x-5 gap-y-1.5 text-sm md:grid">
+              <div className="mt-3 flex flex-col gap-x-5 gap-y-1.5 text-sm md:grid md:grid-cols-entryParams">
                 <div className="font-bold md:text-right">Author(s):</div>
                 <div>{data.entry.authors}</div>
                 <div className="font-bold md:text-right">Type:</div>
@@ -143,7 +197,32 @@ function EntryPage() {
                     <div className="font-bold">
                       {languageCodeToName(e.language)}
                     </div>
-                    <a href={e.url}>{e.filename}</a>
+                    <a href={e.url} className="flex-1">
+                      {e.filename}
+                    </a>
+                    {user.loggedIn &&
+                      (user.level === "admin" ||
+                        user.level === "superuser") && (
+                        <button
+                          className="text-happyRed"
+                          title={`Delete "${e.filename}"`}
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                `Delete "${e.filename}" from the database?`,
+                              )
+                            ) {
+                              deleteEntryFile({
+                                token: user.token,
+                                id: e.entry_id,
+                                filename: e.filename,
+                              });
+                            }
+                          }}
+                        >
+                          <FeatherIcon icon="x" size={18} />
+                        </button>
+                      )}
                   </div>,
                 ])}
                 {allFiles.length < 1 && (
@@ -152,6 +231,96 @@ function EntryPage() {
                   </div>
                 )}
               </div>
+              {user.loggedIn &&
+                (user.level === "admin" || user.level === "superuser") && (
+                  <>
+                    <div className="mt-4 flex items-center justify-center gap-x-4">
+                      <Dropzone
+                        maxFiles={1}
+                        onDrop={(acceptedFiles) => {
+                          if (acceptedFiles.length != 1) {
+                            console.log("Incorrect number of files");
+                            return;
+                          }
+
+                          setUploadFiles(acceptedFiles);
+                        }}
+                      >
+                        {({ getRootProps, getInputProps }) => (
+                          <div
+                            {...getRootProps()}
+                            className="rounded-lg border-rustyRed-200 bg-slate-200 p-5"
+                          >
+                            <div className="rounded bg-boxBg px-4 py-3 text-center">
+                              <input {...getInputProps()} />
+                              <p>
+                                Drag and drop the new file here, or click to
+                                select the file.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </Dropzone>
+                      <div className="flex flex-col gap-1">
+                        <label htmlFor="entry-file-upload-language">
+                          Language:
+                        </label>
+                        <select
+                          className="mr-1 rounded border border-rustyRed-200 bg-boxBg py-1 pl-3 pr-1.5"
+                          value={uploadLanguage}
+                          onChange={(e) => setUploadLanguage(e.target.value)}
+                        >
+                          <option value={data.entry.id}>
+                            {languageCodeToName(data.entry.language)}
+                          </option>
+                          {Object.entries(data.alternates).map((e) => [
+                            <option key={e[0]} value={e[0]}>
+                              {languageCodeToName(e[1].language)}
+                            </option>,
+                          ])}
+                        </select>
+                      </div>
+                    </div>
+                    {uploadFiles.length === 1 && (
+                      <div className="mt-2 flex flex-col items-center gap-2">
+                        <span>{uploadFiles[0].name}</span>
+                        <button
+                          className="rounded bg-blue-900 px-5 py-3 text-white transition-colors hover:bg-blue-950"
+                          onClick={() => {
+                            uploadEntryFile({
+                              token: user.token,
+                              id: uploadLanguage,
+                              file: uploadFiles[0],
+                            });
+                            setUploadFiles([]);
+                          }}
+                        >
+                          Upload file
+                        </button>
+                      </div>
+                    )}
+                    {uploadError && (
+                      <div className="mt-4 flex justify-center">
+                        <div>
+                          <p className="font-semibold">
+                            Error while uploading new file:
+                          </p>
+                          <p className="text-red-600">{uploadErrorMsg}</p>
+                        </div>
+                      </div>
+                    )}
+                    {deleteError && (
+                      <div className="mt-4 flex justify-center">
+                        <div>
+                          <p className="font-semibold">
+                            Error while deleting entry file:
+                          </p>
+                          <p className="text-red-600">{deleteErrorMsg}</p>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
             </div>
             <div className="hover-green w-[58rem] max-w-full rounded-lg bg-boxBg px-8 pb-8 pt-6">
               <h2 className="mb-2 text-lg">Alternate languages</h2>
