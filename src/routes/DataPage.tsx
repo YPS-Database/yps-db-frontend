@@ -20,7 +20,7 @@ function DataPage() {
       <TheHeader />
       <div id="content" className="my-8 flex flex-col items-start gap-3 px-10">
         <div className="hover-red w-full rounded-lg bg-boxBg px-8 py-6">
-          <h2 className="mb-2 text-xl">Dataset</h2>
+          <h2 className="mb-2 mt-1 text-2xl font-bold">Dataset</h2>
           <div>
             <Markdown
               className="markdown-page-content"
