@@ -41,6 +41,11 @@ interface CheckUploadNewDbResponse {
   file_already_exists: boolean;
 }
 
+interface DeleteDbRequest {
+  token: string;
+  db: string;
+}
+
 interface UploadEntryFileListRequest {
   token: string;
   entries: object;
@@ -112,6 +117,7 @@ interface GetLatestDbResponse {
 
 interface GetDbFilesResponse {
   files: {
+    id: string;
     filename: string;
     url: string;
   }[];
@@ -241,6 +247,18 @@ export const api = createApi({
       },
       invalidatesTags: ["current-db", "dbs", "browsebyfields", "entries"],
     }),
+    deleteDb: build.mutation<OkResponse, DeleteDbRequest>({
+      query: ({ token, db }) => {
+        return {
+          url: `db/${db}`,
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+      },
+      invalidatesTags: ["current-db", "dbs"],
+    }),
     getLatestDb: build.query<GetLatestDbResponse, void>({
       query: () => `db`,
       providesTags: ["current-db"],
@@ -327,6 +345,7 @@ export const {
   useApplyDbUpdateMutation,
   useUploadEntryFilesListMutation,
   useCheckUploadNewDbMutation,
+  useDeleteDbMutation,
   useGetLatestDbQuery,
   useGetDbFilesQuery,
   useGetBrowseByFieldsQuery,

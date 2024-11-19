@@ -24,6 +24,7 @@ import UploadDatabase from "./routes/UploadDatabase.tsx";
 import EntryPage from "./routes/EntryPage.tsx";
 import DataPage from "./routes/DataPage.tsx";
 import ImportFileList from "./routes/ImportFileList.tsx";
+import ManageDatabases from "./routes/ManageDatabases.tsx";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/upload-db",
         element: <UploadDatabase />,
+      },
+      {
+        path: "/admin/manage-dbs",
+        element: <ManageDatabases />,
       },
       {
         path: "/admin/import-file-list",
