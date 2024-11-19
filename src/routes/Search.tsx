@@ -33,7 +33,11 @@ function Search() {
     searchBarParams.get("sort") || "relevance",
   );
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(
+    searchBarParams.get("page")
+      ? parseInt(searchBarParams.get("page") || "1")
+      : 1,
+  );
   const { data, isLoading } = useSearchEntriesQuery({
     query: textValue,
     searchContext,
@@ -51,6 +55,7 @@ function Search() {
     sortBy: string,
     filterKey: string,
     filterValue: string,
+    page: number,
   ) {
     setSearchBarParams((params) => {
       params.set("q", query);
@@ -64,6 +69,7 @@ function Search() {
         params.delete("filter_key");
         params.delete("filter_value");
       }
+      params.set("page", page.toString());
       return params;
     });
   }
@@ -86,6 +92,7 @@ function Search() {
                 sortBy,
                 filterKey,
                 filterValue,
+                page,
               );
               setTextValue(query);
               setSearchContext(context);
@@ -104,6 +111,15 @@ function Search() {
             currentPage={page}
             onPageSelected={(newPage) => {
               setPage(newPage);
+              updateSearchBar(
+                textValue,
+                searchContext,
+                searchLanguage,
+                sortBy,
+                filterKey,
+                filterValue,
+                newPage,
+              );
             }}
           />
           <span className="invisible">Pad for center \o/</span>
@@ -146,6 +162,7 @@ function Search() {
                     e.currentTarget.value,
                     filterKey,
                     filterValue,
+                    page,
                   );
                 }}
               >
@@ -171,6 +188,7 @@ function Search() {
                         sortBy,
                         "",
                         "",
+                        page,
                       );
                     }}
                   >
@@ -188,6 +206,15 @@ function Search() {
             currentPage={page}
             onPageSelected={(newPage) => {
               setPage(newPage);
+              updateSearchBar(
+                textValue,
+                searchContext,
+                searchLanguage,
+                sortBy,
+                filterKey,
+                filterValue,
+                newPage,
+              );
             }}
           />
         </div>
