@@ -10,7 +10,7 @@ import {
 import TheLoadingModal from "../components/TheLoadingModal";
 import { createSearchParams, Link, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
-import { languageCodeToName } from "../app/utilities";
+import { languageCodeToName, parseError } from "../app/utilities";
 import { useAppSelector } from "../app/store";
 import Dropzone from "react-dropzone";
 import { useEffect, useState } from "react";
@@ -45,11 +45,7 @@ function EntryPage() {
     },
   ] = useUploadEntryFileMutation();
 
-  const uploadErrorMsg = uploadError
-    ? "error" in uploadError
-      ? uploadError.error
-      : JSON.stringify("data" in uploadError ? uploadError.data : {})
-    : "";
+  const uploadErrorMsg = parseError(uploadError);
 
   const [
     deleteEntryFile,
@@ -60,11 +56,7 @@ function EntryPage() {
     },
   ] = useDeleteEntryFileMutation();
 
-  const deleteErrorMsg = deleteError
-    ? "error" in deleteError
-      ? deleteError.error
-      : JSON.stringify("data" in deleteError ? deleteError.data : {})
-    : "";
+  const deleteErrorMsg = parseError(deleteError);
 
   const { data, isLoading } = useGetEntryQuery(entryId || "");
 

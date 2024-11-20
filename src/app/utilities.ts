@@ -1,3 +1,6 @@
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+
 export function improveFilterName(input: string): string {
   switch (input) {
     case "entry_type":
@@ -161,4 +164,18 @@ export function languageCodeToName(input: string): string {
     return entry.englishName;
   }
   return input;
+}
+
+interface YPSAPIError {
+  error: string;
+}
+
+export function parseError(
+  input: FetchBaseQueryError | SerializedError | undefined,
+): string | undefined {
+  const fberror = input
+    ? ((input as FetchBaseQueryError).data as YPSAPIError).error ||
+      String(input)
+    : undefined;
+  return fberror;
 }

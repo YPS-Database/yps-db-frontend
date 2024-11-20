@@ -4,6 +4,7 @@ import { useDeleteDbMutation, useGetDbFilesQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import FeatherIcon from "feather-icons-react";
 import { useAppSelector } from "../app/store";
+import { parseError } from "../app/utilities";
 
 function ManageDatabases() {
   const user = useAppSelector((state) => state.userProfile);
@@ -13,11 +14,7 @@ function ManageDatabases() {
   const [deleteDbFile, { isLoading: isLoadingDelete, error: deleteError }] =
     useDeleteDbMutation();
 
-  const deleteErrorMsg = deleteError
-    ? "error" in deleteError
-      ? deleteError.error
-      : JSON.stringify("data" in deleteError ? deleteError.data : {})
-    : "";
+  const deleteErrorMsg = parseError(deleteError);
 
   return (
     <>

@@ -9,6 +9,7 @@ import {
 import TheLoadingModal from "../components/TheLoadingModal";
 import { useAppSelector } from "../app/store";
 import { useEffect, useState } from "react";
+import { parseError } from "../app/utilities";
 
 function UploadDatabase() {
   const user = useAppSelector((state) => state.userProfile);
@@ -28,16 +29,8 @@ function UploadDatabase() {
 
   const [applyChanges, setApplyChanges] = useState(false);
 
-  const checkErrorMsg = checkError
-    ? "error" in checkError
-      ? checkError.error
-      : JSON.stringify("data" in checkError ? checkError.data : {})
-    : "";
-  const applyErrorMsg = applyError
-    ? "error" in applyError
-      ? applyError.error
-      : JSON.stringify("data" in applyError ? applyError.data : {})
-    : "";
+  const checkErrorMsg = parseError(checkError);
+  const applyErrorMsg = parseError(applyError);
 
   const canUpload =
     dbFiles.length == 1 &&
@@ -47,7 +40,7 @@ function UploadDatabase() {
 
   // ensure applyChanges is false if we have an error
   useEffect(() => {
-    if (applyChanges && (checkErrorMsg != "" || applyErrorMsg != "")) {
+    if (applyChanges && (checkErrorMsg || applyErrorMsg)) {
       setApplyChanges(false);
     }
   }, [applyChanges, checkErrorMsg, applyErrorMsg]);
