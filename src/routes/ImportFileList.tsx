@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../app/store";
 import { useUploadEntryFilesListMutation } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
+import { parseError } from "../app/utilities";
 
 const jsonFileFormat = `
 {
@@ -23,11 +24,7 @@ function ImportFileList() {
 
   const canUpload = importFiles.length == 1;
 
-  const uploadErrorMessage = error
-    ? "error" in error
-      ? error.error
-      : JSON.stringify("data" in error ? error.data : {})
-    : "";
+  const uploadErrorMessage = parseError(error);
 
   // make sure the user is a superuser
   if (!user.loggedIn || user.level !== "superuser") {
