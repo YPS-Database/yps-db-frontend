@@ -6,11 +6,7 @@ import TheLoadingModal from "../components/TheLoadingModal";
 import React from "react";
 import { improveFilterName } from "../app/utilities";
 import { createSearchParams, Link } from "react-router-dom";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
-import deepmerge from "deepmerge";
+import YPSMarkdown from "../components/YPSMarkdown";
 
 function Landing() {
   const { data: pageData, isLoading: isLoadingGetPage } =
@@ -37,21 +33,7 @@ function Landing() {
       {(isLoadingGetPage || isLoadingBrowseByFields) && <TheLoadingModal />}
       <TheHeader />
       <div className="flex justify-center border-b border-b-happyRed bg-boxBg px-5 pb-7 pt-6">
-        <Markdown
-          className="markdown-page-content w-[60em]"
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[
-            rehypeRaw,
-            [
-              rehypeSanitize,
-              deepmerge(defaultSchema, {
-                attributes: { img: ["className", "style"] },
-              }),
-            ],
-          ]}
-        >
-          {pageData?.markdown}
-        </Markdown>
+        <YPSMarkdown classes="w-[60em]" content={pageData?.markdown} />
       </div>
       <div
         id="content"

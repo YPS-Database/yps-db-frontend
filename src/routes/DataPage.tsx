@@ -3,11 +3,7 @@ import TheFooter from "../components/TheFooter";
 
 import { useGetDbFilesQuery, useGetPageQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
-import deepmerge from "deepmerge";
+import YPSMarkdown from "../components/YPSMarkdown";
 
 function DataPage() {
   const { data: pageData, isLoading: isLoadingPage } = useGetPageQuery("data");
@@ -22,21 +18,7 @@ function DataPage() {
         <div className="hover-red w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="mb-2 mt-1 text-2xl font-bold">Dataset</h2>
           <div>
-            <Markdown
-              className="markdown-page-content"
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[
-                rehypeRaw,
-                [
-                  rehypeSanitize,
-                  deepmerge(defaultSchema, {
-                    attributes: { img: ["className", "style"] },
-                  }),
-                ],
-              ]}
-            >
-              {pageData?.markdown}
-            </Markdown>
+            <YPSMarkdown content={pageData?.markdown} />
           </div>
           <div className="mt-1.5">
             {dbFilesData &&

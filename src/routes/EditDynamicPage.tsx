@@ -1,14 +1,10 @@
 import TheHeader from "../components/TheHeader";
 import TheFooter from "../components/TheFooter";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { useEditPageMutation, useGetPageQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../app/store";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
-import deepmerge from "deepmerge";
+import YPSMarkdown from "../components/YPSMarkdown";
 
 interface Props {
   title: string;
@@ -57,21 +53,7 @@ function EditDynamicPage({ title, slug }: Props) {
               onChange={(e) => setContent(e.currentTarget.value)}
             />
             <div className="flex-1">
-              <Markdown
-                className="markdown-page-content"
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[
-                  rehypeRaw,
-                  [
-                    rehypeSanitize,
-                    deepmerge(defaultSchema, {
-                      attributes: { img: ["className", "style"] },
-                    }),
-                  ],
-                ]}
-              >
-                {content}
-              </Markdown>
+              <YPSMarkdown content={content} />
             </div>
           </div>
           <div className="mt-4 flex items-center justify-center">

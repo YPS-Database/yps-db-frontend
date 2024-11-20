@@ -3,11 +3,7 @@ import TheFooter from "../components/TheFooter";
 
 import { useGetPageQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
-import deepmerge from "deepmerge";
+import YPSMarkdown from "../components/YPSMarkdown";
 
 interface Props {
   title: string;
@@ -25,21 +21,7 @@ function DynamicPage({ title, slug }: Props) {
         <div className="hover-red w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="mb-2 mt-1 text-2xl font-bold">{title}</h2>
           <div>
-            <Markdown
-              className="markdown-page-content"
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[
-                rehypeRaw,
-                [
-                  rehypeSanitize,
-                  deepmerge(defaultSchema, {
-                    attributes: { img: ["className", "style"] },
-                  }),
-                ],
-              ]}
-            >
-              {data?.markdown}
-            </Markdown>
+            <YPSMarkdown content={data?.markdown} />
             {data?.google_form_id && (
               <a className="mt-5 block" href={`${data?.google_form_id}`}>
                 View submission form
