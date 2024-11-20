@@ -14,6 +14,10 @@ function TheFooter() {
             {l.name}
           </Link>
         ))}
+        <Link to="/login" className="flex items-center gap-1.5">
+          <FeatherIcon icon="key" size="18" />
+          Admin login
+        </Link>
       </div>
       <div className="z-10 flex flex-col gap-2 text-balance text-center text-sm">
         <p>
