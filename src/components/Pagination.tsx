@@ -17,7 +17,8 @@ function Pagination({ totalPages, currentPage, onPageSelected }: Props) {
         <a
           href="#"
           className="px-2 py-1.5"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             selectPage(1);
           }}
         >
@@ -29,7 +30,8 @@ function Pagination({ totalPages, currentPage, onPageSelected }: Props) {
         <a
           href="#"
           className="px-2 py-1.5"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             selectPage(currentPage - 1);
           }}
         >
@@ -41,7 +43,8 @@ function Pagination({ totalPages, currentPage, onPageSelected }: Props) {
         <a
           href="#"
           className="px-2 py-1.5"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             selectPage(currentPage + 1);
           }}
         >
@@ -55,7 +58,8 @@ function Pagination({ totalPages, currentPage, onPageSelected }: Props) {
         <a
           href="#"
           className="px-2 py-1.5"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             selectPage(totalPages);
           }}
         >
