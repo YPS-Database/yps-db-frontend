@@ -8,6 +8,16 @@
 //   tags?: TagMap;
 // };
 
+export type LogLine = {
+  id: number;
+  ts: string;
+  level: string;
+  event: string;
+  message: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any;
+};
+
 export type SearchEntry = {
   id: string;
   title: string;

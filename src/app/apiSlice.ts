@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { SearchEntry, SearchFilter } from "../types";
+import { SearchEntry, SearchFilter, LogLine } from "../types";
 
 interface LoginRequest {
   password: string;
@@ -9,6 +9,15 @@ interface LoginResponse {
   token: string;
   level: "user" | "admin" | "superuser";
   exp: string;
+}
+
+interface GetLogsRequest {
+  token: string;
+  page: number;
+}
+
+interface GetLogsResponse {
+  logs: LogLine[];
 }
 
 interface EditPageRequest {
@@ -166,6 +175,21 @@ export const api = createApi({
         method: "POST",
         body: {
           password,
+        },
+      }),
+    }),
+
+    // logs
+    //
+    getLogs: build.query<GetLogsResponse, GetLogsRequest>({
+      query: ({ token, page }) => ({
+        url: `logs`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          page,
         },
       }),
     }),
@@ -340,6 +364,7 @@ export const api = createApi({
 
 export const {
   useLoginMutation,
+  useGetLogsQuery,
   useEditPageMutation,
   useGetPageQuery,
   useApplyDbUpdateMutation,

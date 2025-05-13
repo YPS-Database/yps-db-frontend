@@ -52,23 +52,28 @@ footer a {
   @apply border border-happyGrey shadow-sm shadow-[#58555629];
 }
 .hover-red,
-.search-entry:nth-child(5n) {
+.search-entry:nth-child(5n),
+.log-entry:nth-child(5n) {
   @apply border border-happyRed shadow-sm shadow-[#F2B2C699];
 }
 .hover-yellow,
-.search-entry:nth-child(5n-4) {
+.search-entry:nth-child(5n-4),
+.log-entry:nth-child(5n-4) {
   @apply border border-happyYellow shadow-sm shadow-[#FFEEA5BB];
 }
 .hover-green,
-.search-entry:nth-child(5n-3) {
+.search-entry:nth-child(5n-3),
+.log-entry:nth-child(5n-3) {
   @apply border border-happyGreen shadow-sm shadow-[#A5FFB1BB];
 }
 .hover-blue,
-.search-entry:nth-child(5n-2) {
+.search-entry:nth-child(5n-2),
+.log-entry:nth-child(5n-2) {
   @apply border border-happyBlue shadow-sm shadow-[#A5CCFFBA];
 }
 .hover-purple,
-.search-entry:nth-child(5n-1) {
+.search-entry:nth-child(5n-1),
+.log-entry:nth-child(5n-1) {
   @apply border border-happyPurple shadow-sm shadow-[#F0A5FFBA];
 }
 

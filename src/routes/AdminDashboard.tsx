@@ -38,6 +38,9 @@ function AdminDashboard() {
 
           <div className="my-4 flex flex-col">
             <h3 className="text-lg">Actions</h3>
+            {user.level === "superuser" && (
+              <Link to="/admin/logs">See logs (Superuser)</Link>
+            )}
             <Link to="/logout">Log out</Link>
           </div>
         </div>

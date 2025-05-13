@@ -21,6 +21,7 @@ import Logout from "./routes/Logout.tsx";
 import AdminDashboard from "./routes/AdminDashboard.tsx";
 import EditDynamicPage from "./routes/EditDynamicPage.tsx";
 import UploadDatabase from "./routes/UploadDatabase.tsx";
+import LogsPage from "./routes/LogsPage.tsx";
 import EntryPage from "./routes/EntryPage.tsx";
 import DataPage from "./routes/DataPage.tsx";
 import ImportFileList from "./routes/ImportFileList.tsx";
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: <AdminDashboard />,
+      },
+      {
+        path: "/admin/logs",
+        element: <LogsPage />,
       },
       {
         path: "/admin/upload-db",
