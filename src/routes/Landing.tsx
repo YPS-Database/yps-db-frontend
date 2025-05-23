@@ -7,12 +7,19 @@ import React from "react";
 import { improveFilterName } from "../app/utilities";
 import { createSearchParams, Link } from "react-router-dom";
 import YPSMarkdown from "../components/YPSMarkdown";
+import TheMaintenanceModal from "../components/TheMaintenanceModal";
 
 function Landing() {
-  const { data: pageData, isLoading: isLoadingGetPage } =
-    useGetPageQuery("home");
-  const { data: browseBy, isLoading: isLoadingBrowseByFields } =
-    useGetBrowseByFieldsQuery();
+  const {
+    data: pageData,
+    isLoading: isLoadingGetPage,
+    error: pageError,
+  } = useGetPageQuery("home");
+  const {
+    data: browseBy,
+    isLoading: isLoadingBrowseByFields,
+    error: browseByError,
+  } = useGetBrowseByFieldsQuery();
 
   // put region down the bottom of the 'browse by' list, because it looks better
   const browseByFixed: [string, string[]][] = [];
@@ -30,6 +37,7 @@ function Landing() {
 
   return (
     <>
+      {pageError && browseByError && <TheMaintenanceModal />}
       {(isLoadingGetPage || isLoadingBrowseByFields) && <TheLoadingModal />}
       <TheHeader />
       <div className="flex justify-center border-b border-b-happyRed bg-boxBg px-5 pb-7 pt-6">

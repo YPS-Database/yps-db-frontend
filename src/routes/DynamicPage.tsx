@@ -4,6 +4,7 @@ import TheFooter from "../components/TheFooter";
 import { useGetPageQuery } from "../app/apiSlice";
 import TheLoadingModal from "../components/TheLoadingModal";
 import YPSMarkdown from "../components/YPSMarkdown";
+import TheMaintenanceModal from "../components/TheMaintenanceModal";
 
 interface Props {
   title: string;
@@ -11,10 +12,11 @@ interface Props {
 }
 
 function DynamicPage({ title, slug }: Props) {
-  const { data, isLoading } = useGetPageQuery(slug);
+  const { data, isLoading, error: pageError } = useGetPageQuery(slug);
 
   return (
     <>
+      {pageError && <TheMaintenanceModal />}
       {isLoading && <TheLoadingModal />}
       <TheHeader />
       <div id="content" className="my-8 flex flex-col items-start gap-3 px-10">

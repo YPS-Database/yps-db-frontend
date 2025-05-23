@@ -10,6 +10,7 @@ import TheLoadingModal from "../components/TheLoadingModal";
 import { useSearchParams } from "react-router-dom";
 import { improveFilterName } from "../app/utilities";
 import FeatherIcon from "feather-icons-react";
+import TheMaintenanceModal from "../components/TheMaintenanceModal";
 
 function Search() {
   const [searchBarParams, setSearchBarParams] = useSearchParams();
@@ -36,7 +37,11 @@ function Search() {
       ? parseInt(searchBarParams.get("page") || "1")
       : 1,
   );
-  const { data, isLoading } = useSearchEntriesQuery({
+  const {
+    data,
+    isLoading,
+    error: searchError,
+  } = useSearchEntriesQuery({
     query: textValue,
     searchContext,
     page,
@@ -74,6 +79,7 @@ function Search() {
 
   return (
     <>
+      {searchError && <TheMaintenanceModal />}
       {isLoading && <TheLoadingModal />}
       <TheHeader />
       <div id="content" className="mb-8 flex flex-col gap-3">

@@ -15,6 +15,7 @@ import { useAppSelector } from "../app/store";
 import Dropzone from "react-dropzone";
 import { useEffect, useState } from "react";
 import FeatherIcon from "feather-icons-react";
+import TheMaintenanceModal from "../components/TheMaintenanceModal";
 
 type LanguageEntryFile = {
   entry_id: string;
@@ -58,7 +59,11 @@ function EntryPage() {
 
   const deleteErrorMsg = parseError(deleteError);
 
-  const { data, isLoading } = useGetEntryQuery(entryId || "");
+  const {
+    data,
+    isLoading,
+    error: entryError,
+  } = useGetEntryQuery(entryId || "");
 
   useEffect(() => {
     if (data && uploadLanguage === "") {
@@ -96,6 +101,7 @@ function EntryPage() {
 
   return (
     <>
+      {entryError && <TheMaintenanceModal />}
       {(isLoading || isLoadingUpload || isLoadingDelete) && <TheLoadingModal />}
       <TheHeader />
       <div id="content" className="my-8 flex flex-col items-center gap-3 px-10">
