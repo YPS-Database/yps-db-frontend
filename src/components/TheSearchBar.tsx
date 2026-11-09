@@ -1,11 +1,13 @@
 import FeatherIcon from "feather-icons-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
+import { languageCodeToName } from "../app/utilities";
 
 interface Props {
   defaultValue: string;
   defaultContext?: string;
   defaultLanguage?: string;
+  languages?: string[];
   onSearch?: (
     query: string,
     searchContext: string,
@@ -17,6 +19,7 @@ function TheSearchBar({
   defaultValue,
   defaultContext,
   defaultLanguage,
+  languages = [],
   onSearch,
 }: Props) {
   const [value, setValue] = useState(defaultValue);
@@ -40,6 +43,19 @@ function TheSearchBar({
       });
     }
   }
+
+  const sortedLanguages = useMemo(() => {
+    return [...languages]
+      .filter((code) => Boolean(code) && code !== "all")
+      .sort((a, b) => {
+        if (a === "en") return -1;
+        if (b === "en") return 1;
+
+        const nameA = languageCodeToName(a);
+        const nameB = languageCodeToName(b);
+        return nameA.localeCompare(nameB);
+      });
+  }, [languages]);
 
   return (
     <form
@@ -73,17 +89,11 @@ function TheSearchBar({
           onChange={(e) => setLanguage(e.target.value)}
         >
           <option value="all">All languages</option>
-          <option value="en">English</option>
-          <option value="ar">Arabic</option>
-          <option value="zh">Chinese</option>
-          <option value="fr">French</option>
-          <option value="de">German</option>
-          <option value="el">Greek</option>
-          <option value="ko">Korean</option>
-          <option value="ru">Russian</option>
-          <option value="si">Sinhala</option>
-          <option value="pt">Spanish</option>
-          <option value="ta">Tamil</option>
+          {sortedLanguages.map((code) => (
+            <option key={code} value={code}>
+              {languageCodeToName(code)}
+            </option>
+          ))}
         </select>
       </div>
       <button

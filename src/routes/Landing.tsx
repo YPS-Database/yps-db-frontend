@@ -49,7 +49,7 @@ function Landing() {
       >
         <div className="hover-yellow w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="mb-2 text-lg">Catalogue search</h2>
-          <TheSearchBar defaultValue="" />
+          <TheSearchBar defaultValue="" languages={browseBy?.languages || []} />
         </div>
         <div className="hover-green w-full rounded-lg bg-boxBg px-8 py-6">
           <h2 className="text-lg">Browse by</h2>

@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { SearchEntry, SearchFilter, LogLine } from "../types";
 
+type LanguageNames = string[];
+
 interface LoginRequest {
   password: string;
 }
@@ -62,6 +64,7 @@ interface UploadEntryFileListRequest {
 
 interface BrowseByFieldsResponse {
   values: Map<string, string[]>;
+  languages: LanguageNames;
 }
 
 interface SearchEntriesRequest {
@@ -82,6 +85,7 @@ interface SearchEntriesResponse {
   end_entry: number;
   entries: SearchEntry[];
   filters: SearchFilter[];
+  all_available_languages: LanguageNames;
 }
 
 interface EntryFile {

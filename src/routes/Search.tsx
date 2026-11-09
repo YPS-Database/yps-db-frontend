@@ -88,6 +88,7 @@ function Search() {
             defaultValue={textValue}
             defaultContext={searchContext}
             defaultLanguage={searchLanguage}
+            languages={data?.all_available_languages || []}
             onSearch={(query, context, lang) => {
               updateSearchBar(
                 query,
